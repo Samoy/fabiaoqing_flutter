@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/package.dart';
 import '../models/emoticon.dart';
+import '../pages/detail.dart';
 
 class PackagesWidget extends StatelessWidget {
   final List<Package> _packageList;
@@ -8,7 +9,11 @@ class PackagesWidget extends StatelessWidget {
   PackagesWidget(this._packageList);
 
   _gotoDetail(BuildContext context, package) {
-
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => new DetailPage(package.objectId),
+        ));
   }
 
   @override
