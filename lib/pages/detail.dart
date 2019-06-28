@@ -4,20 +4,22 @@ import '../utils/net_utils.dart';
 
 class DetailPage extends StatefulWidget {
   final String packageId;
+  final String packageName;
 
   @override
   State<StatefulWidget> createState() {
-    return new DetailState(packageId);
+    return new DetailState(packageId, packageName);
   }
 
-  DetailPage(this.packageId);
+  DetailPage(this.packageId, this.packageName);
 }
 
 class DetailState extends State<DetailPage> {
   final String packageId;
+  final String packageName;
   var _emoticonList = <Emoticon>[];
 
-  DetailState(this.packageId);
+  DetailState(this.packageId, this.packageName);
 
   @override
   void initState() {
@@ -45,14 +47,27 @@ class DetailState extends State<DetailPage> {
       body: SingleChildScrollView(
         child: Padding(
             padding: EdgeInsets.all(8),
-            child: Column(
-              children: _emoticonList
-                  .map((f) => Image.network(
-                        f.url,
-                        fit: BoxFit.none,
-                        scale: 2.0,
-                      ))
-                  .toList(),
+            child: Center(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 8, top: 8, right: 8),
+                    child: Text(
+                      packageName,
+                      style: TextStyle(
+                          fontSize: 19,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  )
+                ] +
+                    _emoticonList
+                        .map((f) => Padding(
+                      child: Image.network(f.url, fit: BoxFit.cover),
+                      padding: EdgeInsets.all(8),
+                    ))
+                        .toList(),
+              ),
             )),
       ),
     );
