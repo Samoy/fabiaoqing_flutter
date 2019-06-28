@@ -5,6 +5,8 @@ import '../models/package.dart';
 import '../models/emoticon.dart';
 import '../pages/detail.dart';
 import '../utils/net_utils.dart';
+import '../pages/image_preview.dart';
+import '../utils/animation_utils.dart';
 
 class PackagesWidget extends StatefulWidget {
   final String categoryId;
@@ -47,10 +49,11 @@ class PackagesState extends State<PackagesWidget>
 
   _gotoDetail(BuildContext context, package) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => new DetailPage(package.objectId, package.name),
-        ));
+      context,
+      MaterialPageRoute(
+        builder: (context) => new DetailPage(package.objectId, package.name),
+      ),
+    );
   }
 
   void _onRefresh() async {
@@ -108,11 +111,31 @@ class PackagesState extends State<PackagesWidget>
                         Row(
                           children: package.list.map((Emoticon emoticon) {
                             var imgWidth = (screenWidth - 8 * 4) / 3;
-                            return Image.network(
-                              emoticon.url,
-                              width: imgWidth,
-                              height: imgWidth,
-                              fit: BoxFit.cover,
+                            return GestureDetector(
+                              child: Image.network(
+                                emoticon.url,
+                                width: imgWidth,
+                                height: imgWidth,
+                                fit: BoxFit.cover,
+                              ),
+                              onLongPress: () {
+                                Navigator.of(context).push(PageRouteBuilder(
+                                    pageBuilder:
+                                        (context, animation, secondAnimation) {
+                                  return new ImagePreview(
+                                    currentIndex:
+                                        package.list.indexOf(emoticon),
+                                    imageUrlList: package.list
+                                        .map((f) => f.url
+                                            .replaceAll("bmiddle", "large"))
+                                        .toList(),
+                                  );
+                                }, transitionsBuilder: (context, animation,
+                                        secondAnimation, child) {
+                                  return AnimationUtils.createScaleTransition(
+                                      animation, child);
+                                }));
+                              },
                             );
                           }).toList(),
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -126,9 +149,8 @@ class PackagesState extends State<PackagesWidget>
           }),
       enablePullDown: true,
       enablePullUp: true,
-      header: defaultTargetPlatform == TargetPlatform.iOS
-          ? WaterDropHeader()
-          : WaterDropMaterialHeader(),
+      header: MaterialClassicHeader(),
+      footer: ClassicFooter(loadingText: "正在加载中...", idleText: "加载更多..."),
       controller: _refreshController,
       onRefresh: _onRefresh,
       onLoading: _onLoading,
