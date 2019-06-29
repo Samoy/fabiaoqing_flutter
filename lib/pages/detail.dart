@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/emoticon.dart';
 import '../utils/net_utils.dart';
+import '../utils/animation_utils.dart';
+import 'image_preview.dart';
 
 class DetailPage extends StatefulWidget {
   final String packageId;
@@ -50,22 +52,42 @@ class DetailState extends State<DetailPage> {
             child: Center(
               child: Column(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 8, top: 8, right: 8),
-                    child: Text(
-                      packageName,
-                      style: TextStyle(
-                          fontSize: 19,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ] +
+                      Padding(
+                        padding: EdgeInsets.only(left: 8, top: 8, right: 8),
+                        child: Text(
+                          packageName,
+                          style: TextStyle(
+                              fontSize: 19,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    ] +
                     _emoticonList
                         .map((f) => Padding(
-                      child: Image.network(f.url, fit: BoxFit.cover),
-                      padding: EdgeInsets.all(8),
-                    ))
+                              child: GestureDetector(
+                                child: Image.network(f.url, fit: BoxFit.cover),
+                                onTap: () {
+                                  Navigator.of(context).push(PageRouteBuilder(
+                                      pageBuilder:
+                                          (context, animation, secondAnimation) {
+                                        return new ImagePreview(
+                                          currentIndex:
+                                          _emoticonList.indexOf(f),
+                                          imageUrlList:_emoticonList
+                                              .map((item) => item.url
+                                              .replaceAll("bmiddle", "large"))
+                                              .toList(),
+                                        );
+                                      }, transitionsBuilder: (context, animation,
+                                      secondAnimation, child) {
+                                    return AnimationUtils.createScaleTransition(
+                                        animation, child);
+                                  }));
+                                },
+                              ),
+                              padding: EdgeInsets.all(8),
+                            ))
                         .toList(),
               ),
             )),

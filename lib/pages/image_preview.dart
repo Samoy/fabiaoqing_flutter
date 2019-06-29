@@ -17,6 +17,13 @@ class ImagePreviewState extends State<ImagePreview> {
   final currentIndex;
   final _imageUrlList;
   PageController _controller;
+  final List<String> _shareChannels = [
+    "保存到手机",
+    "发送给QQ好友",
+    "发送给微信好友",
+    "收藏",
+    "取消"
+  ];
 
   ImagePreviewState(this.currentIndex, this._imageUrlList);
 
@@ -25,6 +32,8 @@ class ImagePreviewState extends State<ImagePreview> {
     super.initState();
     _controller = PageController(initialPage: currentIndex);
   }
+
+  _onTapShare(int index) {}
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +46,42 @@ class ImagePreviewState extends State<ImagePreview> {
                   fit: BoxFit.fitWidth,
                 ),
                 onTap: () => Navigator.of(context).pop(),
+                onLongPress: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return Container(
+                            height: 295,
+                            child: ListView.builder(
+                              itemBuilder: (context, index) {
+                                double dividerHeight = 0.5;
+                                if (index == _shareChannels.length - 1) {
+                                  dividerHeight = 0;
+                                }
+                                if (index == _shareChannels.length - 2) {
+                                  dividerHeight = 12;
+                                }
+                                return Column(
+                                  children: <Widget>[
+                                    ListTile(
+                                      title: Text(
+                                        _shareChannels[index],
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      onTap: () => _onTapShare(index),
+                                    ),
+                                    Container(
+                                      height: dividerHeight,
+                                      color: Colors.grey[300],
+                                    )
+                                  ],
+                                );
+                              },
+                              // separatorBuilder: (context, index) => Divider(),
+                              itemCount: _shareChannels.length,
+                            ));
+                      });
+                },
               ))
           .toList(),
       controller: _controller,
