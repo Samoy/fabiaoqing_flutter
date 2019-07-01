@@ -87,7 +87,8 @@ class PackagesState extends State<PackagesWidget>
             return GestureDetector(
               child: Container(
                 child: Padding(
-                    padding: EdgeInsets.all(8),
+                    padding:
+                        EdgeInsets.only(top: 8, bottom: 8, left: 4, right: 4),
                     child: new Column(
                       children: <Widget>[
                         Padding(
@@ -112,11 +113,14 @@ class PackagesState extends State<PackagesWidget>
                           children: package.list.map((Emoticon emoticon) {
                             var imgWidth = (screenWidth - 8 * 4) / 3;
                             return GestureDetector(
-                              child: Image.network(
-                                emoticon.url,
-                                width: imgWidth,
-                                height: imgWidth,
-                                fit: BoxFit.cover,
+                              child: Container(
+                                margin: EdgeInsets.only(left: 4, right: 4),
+                                child: Image.network(
+                                  emoticon.url,
+                                  width: imgWidth,
+                                  height: imgWidth,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                               onLongPress: () {
                                 Navigator.of(context).push(PageRouteBuilder(
@@ -138,7 +142,7 @@ class PackagesState extends State<PackagesWidget>
                               },
                             );
                           }).toList(),
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.start,
                         ),
                       ],
                     )),
