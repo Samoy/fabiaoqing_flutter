@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../utils/net_utils.dart';
 import '../models/category.dart';
+import '../widgets/search_delagate.dart';
 import '../widgets/packages_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -40,11 +41,12 @@ class _HomeState extends State<HomePage> with SingleTickerProviderStateMixin {
       appBar: AppBar(
         title: Text("来发表情吧"),
         bottom: TabBar(
-            tabs: _categories.map((Category category) {
-              return Tab(text: category.name);
-            }).toList(),
-            controller: _tabController,
-            isScrollable: true),
+          tabs: _categories.map((Category category) {
+            return Tab(text: category.name);
+          }).toList(),
+          controller: _tabController,
+          isScrollable: true,
+        ),
       ),
       body: TabBarView(
         children: _categories.map((Category category) {

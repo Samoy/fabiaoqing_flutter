@@ -96,11 +96,14 @@ class PackagesState extends State<PackagesWidget>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Text(
+                              Flexible(
+                                  child: Text(
                                 package.name,
+                                softWrap: false,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontSize: 17, color: Colors.black),
-                              ),
+                              )),
                               Text(
                                 "${package.count}个表情",
                                 style:

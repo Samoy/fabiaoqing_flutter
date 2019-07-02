@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:ui';
 import 'package:toast/toast.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
@@ -22,6 +23,7 @@ class ImagePreview extends StatefulWidget {
 class ImagePreviewState extends State<ImagePreview> {
   final currentIndex;
   final _imageUrlList;
+  int _imageHeight = 0;
   PageController _controller;
   final List<String> _shareChannels = [
     "保存到手机",
@@ -111,51 +113,66 @@ class ImagePreviewState extends State<ImagePreview> {
   @override
   Widget build(BuildContext context) {
     var imageUrlList = _imageUrlList as List<String>;
+    var screenHeight = window.physicalSize.height;
     return new PageView(
-      children: imageUrlList
-          .map((url) => GestureDetector(
-                child: Image.network(
-                  url,
-                  fit: BoxFit.fitWidth,
-                ),
-                onTap: () => Navigator.of(context).pop(),
-                onLongPress: () {
-                  showModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        return Container(
-                            height: 295,
-                            child: ListView.builder(
-                              itemBuilder: (context, index) {
-                                double dividerHeight = 0.5;
-                                if (index == _shareChannels.length - 1) {
-                                  dividerHeight = 0;
-                                }
-                                if (index == _shareChannels.length - 2) {
-                                  dividerHeight = 12;
-                                }
-                                return Column(
-                                  children: <Widget>[
-                                    ListTile(
-                                      title: Text(
-                                        _shareChannels[index],
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      onTap: () => _onTapShare(index, url),
-                                    ),
-                                    Container(
-                                      height: dividerHeight,
-                                      color: Colors.grey[300],
-                                    )
-                                  ],
-                                );
-                              },
-                              itemCount: _shareChannels.length,
-                            ));
-                      });
-                },
+      children: imageUrlList.map((url) {
+        var imageWidget = Image.network(
+          url,
+          fit: BoxFit.fitWidth,
+        );
+        imageWidget.image.resolve(ImageConfiguration()).addListener((image, _) {
+          if (mounted) {
+            setState(() {
+              _imageHeight = image.image.height;
+            });
+          }
+        });
+        var content = GestureDetector(
+          child: imageWidget,
+          onTap: () => Navigator.of(context).pop(),
+          onLongPress: () {
+            showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return Container(
+                      height: 295,
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          double dividerHeight = 0.5;
+                          if (index == _shareChannels.length - 1) {
+                            dividerHeight = 0;
+                          }
+                          if (index == _shareChannels.length - 2) {
+                            dividerHeight = 12;
+                          }
+                          return Column(
+                            children: <Widget>[
+                              ListTile(
+                                title: Text(
+                                  _shareChannels[index],
+                                  textAlign: TextAlign.center,
+                                ),
+                                onTap: () => _onTapShare(index, url),
+                              ),
+                              Container(
+                                height: dividerHeight,
+                                color: Colors.grey[300],
+                              )
+                            ],
+                          );
+                        },
+                        itemCount: _shareChannels.length,
+                      ));
+                });
+          },
+        );
+        return _imageHeight > screenHeight
+            ? SingleChildScrollView(
+                child: Center(
+                child: content,
               ))
-          .toList(),
+            : content;
+      }).toList(),
       controller: _controller,
     );
   }
