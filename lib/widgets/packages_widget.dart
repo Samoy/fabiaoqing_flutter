@@ -10,23 +10,26 @@ import '../utils/animation_utils.dart';
 
 class PackagesWidget extends StatefulWidget {
   final String categoryId;
+  final String keyword;
 
-  const PackagesWidget({Key key, this.categoryId}) : super(key: key);
+  const PackagesWidget({Key key, this.categoryId, this.keyword})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return new PackagesState(this.categoryId);
+    return new PackagesState(categoryId, keyword);
   }
 }
 
 class PackagesState extends State<PackagesWidget>
     with AutomaticKeepAliveClientMixin {
   final String categoryId;
+  final String keyword;
   List<Package> _packageList = [];
   RefreshController _refreshController;
   var _page = 1;
 
-  PackagesState(this.categoryId);
+  PackagesState(this.categoryId, this.keyword);
 
   @override
   void initState() {
@@ -34,9 +37,15 @@ class PackagesState extends State<PackagesWidget>
     _refreshController = RefreshController(initialRefresh: true);
   }
 
-  Future _getPackageList(categoryId, page) async {
-    var res = await NetUtils.get(
-        context, "package/list?categoryId=$categoryId&page=$page");
+  Future _getPackageList(String categoryId, String keyword, int page) async {
+    var res;
+    if (categoryId != null && categoryId.isNotEmpty) {
+      res = await NetUtils.get(
+          context, "package/list?categoryId=$categoryId&page=$page");
+    } else if (keyword != null && keyword.isNotEmpty) {
+      res = await NetUtils.get(
+          context, "package/list/search?keyword=$keyword&page=$page");
+    }
     if (res["data"] != null) {
       for (var value in res["data"]) {
         Package package = Package.fromJson(value);
@@ -61,13 +70,13 @@ class PackagesState extends State<PackagesWidget>
     setState(() {
       _packageList.clear();
     });
-    await _getPackageList(categoryId, _page);
+    await _getPackageList(categoryId, keyword, _page);
     _refreshController.refreshCompleted();
   }
 
   void _onLoading() async {
     _page++;
-    await _getPackageList(categoryId, _page);
+    await _getPackageList(categoryId, keyword, _page);
     _refreshController.loadComplete();
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../utils/net_utils.dart';
 import '../models/category.dart';
-import '../widgets/search_delagate.dart';
+import 'package:fabiaoqing/delegate/search_delagate.dart';
 import '../widgets/packages_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -47,6 +47,18 @@ class _HomeState extends State<HomePage> with SingleTickerProviderStateMixin {
           controller: _tabController,
           isScrollable: true,
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+            onPressed: () => showSearch(
+                  context: context,
+                  delegate: MySearchDelegate(),
+                ),
+          )
+        ],
       ),
       body: TabBarView(
         children: _categories.map((Category category) {
