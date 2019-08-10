@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker_saver/image_picker_saver.dart';
+import 'package:image_save/image_save.dart';
 
 class ImagePreview extends StatefulWidget {
   final currentIndex;
@@ -99,8 +99,9 @@ class ImagePreviewState extends State<ImagePreview> {
     }
     Response<List<int>> res = await Dio().get<List<int>>(url,
         options: Options(responseType: ResponseType.bytes));
+    String suffix = (url as String).split(".").last;
     String path =
-        await ImagePickerSaver.saveFile(fileData: Uint8List.fromList(res.data));
+        await ImageSave.saveImage(suffix, Uint8List.fromList(res.data));
     Toast.show(path != null ? "成功保存图片到相册" : "保存失败", context);
   }
 
@@ -120,13 +121,15 @@ class ImagePreviewState extends State<ImagePreview> {
           url,
           fit: BoxFit.fitWidth,
         );
-        imageWidget.image.resolve(ImageConfiguration()).addListener((image, _) {
+        imageWidget.image
+            .resolve(ImageConfiguration())
+            .addListener(new ImageStreamListener((image, _) {
           if (mounted) {
             setState(() {
               _imageHeight = image.image.height;
             });
           }
-        });
+        }));
         var content = GestureDetector(
           child: imageWidget,
           onTap: () => Navigator.of(context).pop(),

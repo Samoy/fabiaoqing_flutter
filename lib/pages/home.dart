@@ -11,7 +11,7 @@ class HomePage extends StatefulWidget {
   }
 }
 
-class _HomeState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomeState extends State<HomePage> with TickerProviderStateMixin {
   var _categories = <Category>[];
   TabController _tabController;
 
