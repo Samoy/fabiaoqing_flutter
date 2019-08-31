@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fabiaoqing/pages/home.dart';
+import 'package:fabiaoqing/pages/tag_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,10 +28,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
+    TagPage(),
   ];
 
   void _onItemTapped(int index) {

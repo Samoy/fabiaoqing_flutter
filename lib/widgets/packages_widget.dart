@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../models/package.dart';
 import '../models/emoticon.dart';
-import '../pages/detail.dart';
+import '../pages/package_detail.dart';
 import '../utils/net_utils.dart';
 import '../pages/image_preview.dart';
 import '../utils/animation_utils.dart';
@@ -28,6 +28,7 @@ class PackagesState extends State<PackagesWidget>
   List<Package> _packageList = [];
   RefreshController _refreshController;
   var _page = 1;
+  bool _noData = false;
 
   PackagesState(this.categoryId, this.keyword);
 
@@ -38,6 +39,9 @@ class PackagesState extends State<PackagesWidget>
   }
 
   Future _getPackageList(String categoryId, String keyword, int page) async {
+    setState(() {
+      _noData = false;
+    });
     var res;
     if (categoryId != null && categoryId.isNotEmpty) {
       res = await NetUtils.get(
@@ -47,6 +51,12 @@ class PackagesState extends State<PackagesWidget>
           context, "package/list/search?keyword=$keyword&page=$page");
     }
     if (res["data"] != null) {
+      if (res["data"].isEmpty) {
+        setState(() {
+          _noData = true;
+        });
+        return;
+      }
       for (var value in res["data"]) {
         Package package = Package.fromJson(value);
         setState(() {
@@ -166,7 +176,11 @@ class PackagesState extends State<PackagesWidget>
       enablePullDown: true,
       enablePullUp: true,
       header: MaterialClassicHeader(),
-      footer: ClassicFooter(loadingText: "正在加载中...", idleText: "加载更多..."),
+      footer: ClassicFooter(
+        loadingText: "正在加载中...",
+        idleText: _noData ? "没有更多了..." : "加载更多...",
+        idleIcon: _noData ? null : Icon(Icons.arrow_upward, color: Colors.grey),
+      ),
       controller: _refreshController,
       onRefresh: _onRefresh,
       onLoading: _onLoading,

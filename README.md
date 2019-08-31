@@ -14,3 +14,8 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our 
 [online documentation](https://flutter.dev/docs), which offers tutorials, 
 samples, guidance on mobile development, and a full API reference.
+
+## 生成JSONModel
+1. 在跟根目录下添加jsons目录，里面放置json文件
+2. 在命令行运行`flutter packages pub run json_model`
+3. 更多信息参见(https://github.com/flutterchina/json_model/blob/master/README-ZH.md)
