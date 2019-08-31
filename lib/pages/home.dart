@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../utils/net_utils.dart';
 import '../models/category.dart';
@@ -37,6 +38,7 @@ class _HomeState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    //TODO:实现APPBar吸顶效果
     return new Scaffold(
       appBar: AppBar(
         title: Text("来发表情吧"),
