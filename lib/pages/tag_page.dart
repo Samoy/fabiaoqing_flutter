@@ -22,7 +22,7 @@ class TagState extends State<TagPage> {
   ];
 
   Future _getTags() async {
-    var res = await NetUtils.get(context, "tag/rand_list");
+    var res = await NetUtils.getInstance(context).get("tag/rand_list");
     if (res["data"] != null) {
       _tagList.clear();
       for (var value in res["data"]) {

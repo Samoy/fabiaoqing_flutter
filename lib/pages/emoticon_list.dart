@@ -38,8 +38,8 @@ class EmoticonListState extends State<EmoticonList>
     setState(() {
       _noData = false;
     });
-    var res = await NetUtils.get(
-        context, "emoticon/search?keyword=$keyword&page=$page");
+    var res = await NetUtils.getInstance(context)
+        .get("emoticon/search?keyword=$keyword&page=$page");
     if (res["data"] != null) {
       if (res["data"].isEmpty) {
         setState(() {
@@ -99,20 +99,18 @@ class EmoticonListState extends State<EmoticonList>
                   emoticon.url,
                   width: screenWidth,
                 ),
-                onTap: (){
+                onTap: () {
                   Navigator.of(context).push(PageRouteBuilder(
-                      pageBuilder:
-                          (context, animation, secondAnimation) {
-                        return new ImagePreview(
-                          currentIndex:
-                          _emoticonList.indexOf(emoticon),
-                          imageUrlList:_emoticonList
-                              .map((item) => item.url
-                              .replaceAll("bmiddle", "large"))
-                              .toList(),
-                        );
-                      }, transitionsBuilder: (context, animation,
-                      secondAnimation, child) {
+                      pageBuilder: (context, animation, secondAnimation) {
+                    return new ImagePreview(
+                      currentIndex: _emoticonList.indexOf(emoticon),
+                      imageUrlList: _emoticonList
+                          .map(
+                              (item) => item.url.replaceAll("bmiddle", "large"))
+                          .toList(),
+                    );
+                  }, transitionsBuilder:
+                          (context, animation, secondAnimation, child) {
                     return AnimationUtils.createScaleTransition(
                         animation, child);
                   }));

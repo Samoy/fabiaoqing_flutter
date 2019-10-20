@@ -24,7 +24,7 @@ class _HomeState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   void _getCategories() async {
-    var res = await NetUtils.get(context, "category/list");
+    var res = await NetUtils.getInstance(context).get("category/list");
     if (res["data"] != null) {
       for (var value in res["data"]) {
         Category category = Category.fromJson(value);
@@ -56,9 +56,9 @@ class _HomeState extends State<HomePage> with TickerProviderStateMixin {
               color: Colors.white,
             ),
             onPressed: () => showSearch(
-                  context: context,
-                  delegate: MySearchDelegate(),
-                ),
+              context: context,
+              delegate: MySearchDelegate(),
+            ),
           )
         ],
       ),

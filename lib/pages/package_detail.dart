@@ -30,7 +30,7 @@ class DetailState extends State<DetailPage> {
   }
 
   void _getEmoticonList() async {
-    var res = await NetUtils.get(context, "package/list/detail?id=$packageId");
+    var res = await NetUtils.getInstance(context).get("package/list/detail?id=$packageId");
     if (res["data"] != null) {
       for (var item in res["data"]) {
         setState(() {

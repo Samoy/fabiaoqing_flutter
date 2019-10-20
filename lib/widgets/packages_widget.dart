@@ -44,11 +44,11 @@ class PackagesState extends State<PackagesWidget>
     });
     var res;
     if (categoryId != null && categoryId.isNotEmpty) {
-      res = await NetUtils.get(
-          context, "package/list?categoryId=$categoryId&page=$page");
+      res = await NetUtils.getInstance(context)
+          .get("package/list?categoryId=$categoryId&page=$page");
     } else if (keyword != null && keyword.isNotEmpty) {
-      res = await NetUtils.get(
-          context, "package/list/search?keyword=$keyword&page=$page");
+      res = await NetUtils.getInstance(context)
+          .get("package/list/search?keyword=$keyword&page=$page");
     }
     if (res["data"] != null) {
       if (res["data"].isEmpty) {

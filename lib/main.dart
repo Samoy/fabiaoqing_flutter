@@ -1,3 +1,4 @@
+import 'package:fabiaoqing/pages/me.dart';
 import 'package:flutter/material.dart';
 import 'package:fabiaoqing/pages/home.dart';
 import 'package:fabiaoqing/pages/tag_page.dart';
@@ -8,8 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme:
-          ThemeData(primarySwatch: Colors.blue, accentColor: Colors.pinkAccent),
+      theme: ThemeData(primarySwatch: Colors.pink, accentColor: Colors.blue),
       home: MyStatefulWidget(),
     );
   }
@@ -29,6 +29,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     TagPage(),
+    MePage(),
   ];
 
   void _onItemTapped(int index) {
@@ -40,8 +41,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      body: IndexedStack(
+        children: _widgetOptions,
+        index: _selectedIndex,
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -59,6 +61,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
             title: Text('标签墙'),
           ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), title: Text('我的'))
         ],
         currentIndex: _selectedIndex,
         selectedIconTheme: IconThemeData(color: Colors.blue),
