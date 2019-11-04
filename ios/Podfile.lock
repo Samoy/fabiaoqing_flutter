@@ -1,28 +1,28 @@
 PODS:
   - Flutter (1.0.0)
-  - image_picker_saver (0.0.1):
+  - image_save (0.0.1):
     - Flutter
-  - permission_handler (3.1.0):
+  - permission_handler (3.3.0):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
-  - image_picker_saver (from `.symlinks/plugins/image_picker_saver/ios`)
+  - image_save (from `.symlinks/plugins/image_save/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: ".symlinks/flutter/ios"
-  image_picker_saver:
-    :path: ".symlinks/plugins/image_picker_saver/ios"
+  image_save:
+    :path: ".symlinks/plugins/image_save/ios"
   permission_handler:
     :path: ".symlinks/plugins/permission_handler/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
-  image_picker_saver: c674305b2e535d97afabfdff4e036f5da73e0167
-  permission_handler: a1b8c0f8c83b4e7201f9c04b9aef09979cc97f60
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  image_save: 66ab41fa2c60bc9569e55563ea287cced7b79fd1
+  permission_handler: 67637977b227d62d46bfbf524f335f8568de5a73
 
 PODFILE CHECKSUM: aff02bfeed411c636180d6812254b2daeea14d09
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.8.4
