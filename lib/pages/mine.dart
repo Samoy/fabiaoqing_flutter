@@ -1,6 +1,7 @@
+import 'package:fabiaoqing/pages/login.dart';
 import 'package:flutter/material.dart';
 
-class MePage extends StatefulWidget {
+class MinePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -11,8 +12,9 @@ class MePage extends StatefulWidget {
 class _MeState extends State {
   final _operationList = [
     {"title": "用户反馈", "icon": Icons.ac_unit},
-    {"title": "用户反馈", "icon": Icons.ac_unit},
-    {"title": "用户反馈", "icon": Icons.ac_unit}
+    {"title": "清除缓存", "icon": Icons.ac_unit},
+    {"title": "夜间模式", "icon": Icons.ac_unit},
+    {"title": "关于我们", "icon": Icons.ac_unit}
   ];
 
   @override
@@ -22,7 +24,6 @@ class _MeState extends State {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
@@ -83,11 +84,11 @@ class _MeState extends State {
                 InkWell(
                   child: Column(
                     children: <Widget>[
-                      Image.network(
-                        "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1624240531,2195794812&fm=26&gp=0.jpg",
+                      Image.asset(
+                        "images/favorite.jpeg",
                         width: 60,
                         height: 40,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                       ),
                       Container(
                         child: Text(
@@ -104,11 +105,11 @@ class _MeState extends State {
                 InkWell(
                   child: Column(
                     children: <Widget>[
-                      Image.network(
-                        "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1624240531,2195794812&fm=26&gp=0.jpg",
+                      Image.asset(
+                        "images/diy.jpeg",
                         width: 60,
                         height: 40,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                       ),
                       Container(
                         child: Text(
@@ -125,11 +126,11 @@ class _MeState extends State {
                 InkWell(
                   child: Column(
                     children: <Widget>[
-                      Image.network(
-                        "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1624240531,2195794812&fm=26&gp=0.jpg",
+                      Image.asset(
+                        "images/history.jpeg",
                         width: 60,
                         height: 40,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                       ),
                       Container(
                         child: Text(
@@ -189,7 +190,8 @@ class _MeState extends State {
   }
 
   void _onTapAvatar() {
-    print("点击了");
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => LoginPage()));
   }
 
   void _onTapMyFavorite() {

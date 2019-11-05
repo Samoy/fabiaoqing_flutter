@@ -1,15 +1,20 @@
-import 'package:fabiaoqing/pages/me.dart';
+import 'package:fabiaoqing/pages/mine.dart';
 import 'package:flutter/material.dart';
 import 'package:fabiaoqing/pages/home.dart';
 import 'package:fabiaoqing/pages/tag_page.dart';
+import 'package:flutter/services.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  final SystemUiOverlayStyle _style =
+      SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(_style);
     return MaterialApp(
-      theme: ThemeData(primarySwatch: Colors.pink, accentColor: Colors.blue),
+      theme: ThemeData(primarySwatch: Colors.red, accentColor: Colors.blue),
       home: MyStatefulWidget(),
     );
   }
@@ -29,7 +34,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     TagPage(),
-    MePage(),
+    MinePage(),
   ];
 
   void _onItemTapped(int index) {
