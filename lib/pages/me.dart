@@ -9,6 +9,12 @@ class MePage extends StatefulWidget {
 }
 
 class _MeState extends State {
+  final _operationList = [
+    {"title": "用户反馈", "icon": Icons.ac_unit},
+    {"title": "用户反馈", "icon": Icons.ac_unit},
+    {"title": "用户反馈", "icon": Icons.ac_unit}
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -60,7 +66,6 @@ class _MeState extends State {
                     ),
                     Icon(
                       Icons.chevron_right,
-                      size: 32,
                       color: Colors.grey[400],
                     )
                   ],
@@ -143,20 +148,55 @@ class _MeState extends State {
             ),
             color: Colors.white,
           ),
-          Container(
-            margin: EdgeInsets.only(top: 20),
-            color: Colors.white,
+          Expanded(
+            flex: 1,
+            child: Container(
+              margin: EdgeInsets.only(top: 19),
+              child: ListView.builder(
+                  itemBuilder: (context, index) => InkWell(
+                        child: Container(
+                          padding: EdgeInsets.all(12),
+                          margin: EdgeInsets.only(top: 1),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Icon(_operationList[index]["icon"]),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 8),
+                                    child: Text(
+                                      _operationList[index]["title"],
+                                      style: TextStyle(color: Colors.grey[600]),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Icon(Icons.chevron_right)
+                            ],
+                          ),
+                          color: Colors.white,
+                        ),
+                        onTap: _onTapRow,
+                      ),
+                  //separatorBuilder: (context, index) => Divider(),
+                  itemCount: _operationList.length),
+            ),
           )
         ],
       ),
     );
   }
 
-  _onTapAvatar() {
+  void _onTapAvatar() {
     print("点击了");
   }
 
   void _onTapMyFavorite() {
     print("点击我的收藏");
+  }
+
+  void _onTapRow() {
+    print("点击了一行");
   }
 }

@@ -107,7 +107,7 @@ class PackagesState extends State<PackagesWidget>
               child: Container(
                 child: Padding(
                     padding:
-                        EdgeInsets.only(top: 8, bottom: 8, left: 4, right: 4),
+                        EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                     child: new Column(
                       children: <Widget>[
                         Padding(

@@ -84,7 +84,6 @@ class EmoticonListState extends State<EmoticonList>
   Widget build(BuildContext context) {
     super.build(context);
     var screenWidth = MediaQuery.of(context).size.width;
-    print("是否空数据:$_noData");
     return Scaffold(
       appBar: AppBar(
         title: Text("与“$keyword”相关的表情"),
