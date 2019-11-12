@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../utils/net_utils.dart';
 import '../models/category.dart';
@@ -42,6 +41,7 @@ class _HomeState extends State<HomePage> with TickerProviderStateMixin {
     return new Scaffold(
       appBar: AppBar(
         title: Text("来发表情吧"),
+        elevation: 0,
         bottom: TabBar(
           tabs: _categories.map((Category category) {
             return Tab(text: category.name);

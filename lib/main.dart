@@ -1,3 +1,4 @@
+import 'package:fabiaoqing/common/common_user.dart';
 import 'package:fabiaoqing/pages/mine.dart';
 import 'package:flutter/material.dart';
 import 'package:fabiaoqing/pages/home.dart';
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CommonUser.init();
     SystemChrome.setSystemUIOverlayStyle(_style);
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.red, accentColor: Colors.blue),

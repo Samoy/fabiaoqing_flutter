@@ -26,6 +26,7 @@ dependencies:
   pull_to_refresh: ^1.4.6
   image_save: ^1.0.1
   permission_handler: ^3.0.0
+  shared_preferences: ^0.5.4+3
 
 dev_dependencies:
   flutter_test:

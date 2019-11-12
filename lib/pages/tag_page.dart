@@ -43,7 +43,10 @@ class TagState extends State<TagPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("标签墙")),
+        appBar: AppBar(
+          title: Text("标签墙"),
+          elevation: 0,
+        ),
         body: Padding(
           padding: EdgeInsets.all(8),
           child: Column(

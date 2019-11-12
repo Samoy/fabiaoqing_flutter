@@ -34,7 +34,7 @@ class NetUtils {
   }
 
   Future post(String path, Map<String, dynamic> params) async {
-    var response = await dio.post(base_url + path, data: params);
+    var response = await dio.post(base_url + path, queryParameters: params);
     return response.data;
   }
 }

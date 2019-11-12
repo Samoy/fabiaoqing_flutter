@@ -28,6 +28,7 @@ class _MeState extends State {
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text("我的"),
+        elevation: 0,
       ),
       body: Column(
         children: <Widget>[
