@@ -24,7 +24,7 @@ class _HomeState extends State<HomePage> with TickerProviderStateMixin {
 
   void _getCategories() async {
     var res = await NetUtils.getInstance(context).get("category/list");
-    if (res["data"] != null) {
+    if (res != null && res["data"] != null) {
       for (var value in res["data"]) {
         Category category = Category.fromJson(value);
         _categories.add(category);

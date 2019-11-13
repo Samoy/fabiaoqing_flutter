@@ -23,7 +23,7 @@ class TagState extends State<TagPage> {
 
   Future _getTags() async {
     var res = await NetUtils.getInstance(context).get("tag/rand_list");
-    if (res["data"] != null) {
+    if (res != null && res["data"] != null) {
       _tagList.clear();
       for (var value in res["data"]) {
         Tag tag = Tag.fromJson(value);

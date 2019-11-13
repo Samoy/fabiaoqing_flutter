@@ -12,18 +12,17 @@ import 'package:toast/toast.dart';
 class LoginPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return LoginState();
+    return _LoginState();
   }
 }
 
-class LoginState extends State<LoginPage> {
+class _LoginState extends State<LoginPage> {
   var telephone = "";
   var password = "";
 
   @override
   void initState() {
     super.initState();
-    print("当前用户:${CommonUser.getInstance().getUserId()}");
   }
 
   @override
@@ -149,9 +148,12 @@ class LoginState extends State<LoginPage> {
     login();
   }
 
-  void _onTapCodeLogin() {
-    Navigator.of(context)
+  void _onTapCodeLogin() async {
+    var loginSuccess = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => LoginByCodePage()));
+    if (loginSuccess) {
+      Navigator.pop(context);
+    }
   }
 
   void _onTapForget() {
@@ -161,14 +163,12 @@ class LoginState extends State<LoginPage> {
 
   void login() async {
     showDialog(context: context, builder: (context) => new LoadingDialog());
-    try {
-      var result = await NetUtils.getInstance(context)
-          .post("user/login", {"telephone": telephone, "password": password});
-      if (result["data"] != null) {
-        LoginResult loginResult = LoginResult.fromJson(result["data"]);
-        CommonUser.getInstance().setLoginResult(loginResult);
-      }
-    } finally {
+    var res = await NetUtils.getInstance(context)
+        .post("user/login", {"telephone": telephone, "password": password});
+    Navigator.pop(context);
+    if (res["data"] != null) {
+      LoginResult loginResult = LoginResult.fromJson(res["data"]);
+      CommonUser.getInstance().setLoginResult(loginResult);
       Navigator.pop(context);
     }
   }

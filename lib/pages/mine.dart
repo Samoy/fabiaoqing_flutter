@@ -1,10 +1,12 @@
+import 'package:fabiaoqing/common/common_user.dart';
+import 'package:fabiaoqing/models/index.dart';
 import 'package:fabiaoqing/pages/login.dart';
+import 'package:fabiaoqing/utils/net_utils.dart';
 import 'package:flutter/material.dart';
 
 class MinePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _MeState();
   }
 }
@@ -17,9 +19,14 @@ class _MeState extends State {
     {"title": "关于我们", "icon": Icons.ac_unit}
   ];
 
+  String _nickname = "未登录用户";
+  String _avatarUrl =
+      "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1624240531,2195794812&fm=26&gp=0.jpg";
+
   @override
   void initState() {
     super.initState();
+    _getProfile();
   }
 
   @override
@@ -43,7 +50,7 @@ class _MeState extends State {
                       children: <Widget>[
                         ClipOval(
                           child: Image.network(
-                            "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1624240531,2195794812&fm=26&gp=0.jpg",
+                            _avatarUrl,
                             width: 80,
                             height: 80,
                           ),
@@ -52,7 +59,7 @@ class _MeState extends State {
                           margin: EdgeInsets.only(left: 12),
                           child: Column(children: <Widget>[
                             Text(
-                              "猪猪侠",
+                              _nickname,
                               style: TextStyle(
                                 fontSize: 18,
                               ),
@@ -191,8 +198,12 @@ class _MeState extends State {
   }
 
   void _onTapAvatar() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => LoginPage()));
+    if (CommonUser.getInstance().isLogin()) {
+      //TODO:跳转个人资料页
+    } else {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => LoginPage()));
+    }
   }
 
   void _onTapMyFavorite() {
@@ -201,5 +212,22 @@ class _MeState extends State {
 
   void _onTapRow() {
     print("点击了一行");
+  }
+
+  void _getProfile() async {
+    CommonUser user = await CommonUser.getInstance().initData();
+    if (user.isLogin()) {
+      var res = await NetUtils.getInstance(context).get(
+          "user/profile?userId=${user.getUserId()}",
+          headers: {"token": user.getToken()});
+      if (res != null && res["data"] != null) {
+        User currentUser = User.fromJson(res["data"]);
+        setState(() {
+          _nickname = currentUser.nickname;
+          _avatarUrl =
+              currentUser.avatar.isEmpty ? _avatarUrl : currentUser.avatar;
+        });
+      }
+    }
   }
 }

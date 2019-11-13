@@ -50,7 +50,7 @@ class PackagesState extends State<PackagesWidget>
       res = await NetUtils.getInstance(context)
           .get("package/list/search?keyword=$keyword&page=$page");
     }
-    if (res["data"] != null) {
+    if (res != null && res["data"] != null) {
       if (res["data"].isEmpty) {
         setState(() {
           _noData = true;
@@ -106,8 +106,7 @@ class PackagesState extends State<PackagesWidget>
             return GestureDetector(
               child: Container(
                 child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                     child: new Column(
                       children: <Widget>[
                         Padding(

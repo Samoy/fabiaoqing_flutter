@@ -30,8 +30,9 @@ class DetailState extends State<DetailPage> {
   }
 
   void _getEmoticonList() async {
-    var res = await NetUtils.getInstance(context).get("package/list/detail?id=$packageId");
-    if (res["data"] != null) {
+    var res = await NetUtils.getInstance(context)
+        .get("package/list/detail?id=$packageId");
+    if (res != null && res["data"] != null) {
       for (var item in res["data"]) {
         setState(() {
           _emoticonList.add(Emoticon.fromJson(item));
@@ -69,18 +70,17 @@ class DetailState extends State<DetailPage> {
                                 child: Image.network(f.url, fit: BoxFit.cover),
                                 onTap: () {
                                   Navigator.of(context).push(PageRouteBuilder(
-                                      pageBuilder:
-                                          (context, animation, secondAnimation) {
-                                        return new ImagePreview(
-                                          currentIndex:
-                                          _emoticonList.indexOf(f),
-                                          imageUrlList:_emoticonList
-                                              .map((item) => item.url
+                                      pageBuilder: (context, animation,
+                                          secondAnimation) {
+                                    return new ImagePreview(
+                                      currentIndex: _emoticonList.indexOf(f),
+                                      imageUrlList: _emoticonList
+                                          .map((item) => item.url
                                               .replaceAll("bmiddle", "large"))
-                                              .toList(),
-                                        );
-                                      }, transitionsBuilder: (context, animation,
-                                      secondAnimation, child) {
+                                          .toList(),
+                                    );
+                                  }, transitionsBuilder: (context, animation,
+                                          secondAnimation, child) {
                                     return AnimationUtils.createScaleTransition(
                                         animation, child);
                                   }));

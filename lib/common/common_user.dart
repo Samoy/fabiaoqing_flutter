@@ -11,7 +11,7 @@ class CommonUser {
   static CommonUser _instance;
 
   CommonUser._internal() {
-    setData();
+    initData();
   }
 
   //此方法只允许调用一次，也就是在程序入口处调用
@@ -22,7 +22,7 @@ class CommonUser {
     CommonUser._internal();
   }
 
-  setData() async {
+  initData() async {
     var userId = await StorageUtils.getItem("userId");
     var token = await StorageUtils.getItem("token");
     if (userId != null) {
@@ -31,6 +31,7 @@ class CommonUser {
     if (token != null) {
       _loginResult.token = token;
     }
+    return this;
   }
 
   static CommonUser getInstance() {
@@ -49,6 +50,17 @@ class CommonUser {
 
   String getUserId() {
     return _loginResult.userId;
+  }
+
+  bool isLogin() {
+    return _loginResult.userId != null && _loginResult.token != null;
+  }
+
+  void logout() {
+    _loginResult.userId = null;
+    _loginResult.token = null;
+    StorageUtils.removeItem("userId");
+    StorageUtils.removeItem("token");
   }
 
   LoginResult getLoginResult() {

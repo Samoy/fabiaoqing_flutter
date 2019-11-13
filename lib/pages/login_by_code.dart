@@ -1,4 +1,8 @@
+import 'package:fabiaoqing/common/common_user.dart';
+import 'package:fabiaoqing/models/index.dart';
+import 'package:fabiaoqing/utils/net_utils.dart';
 import 'package:fabiaoqing/utils/validation_utils.dart';
+import 'package:fabiaoqing/widgets/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -7,15 +11,15 @@ import 'package:toast/toast.dart';
 class LoginByCodePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return LoginByCodeState();
+    return _LoginByCodeState();
   }
 }
 
-class LoginByCodeState<LoginByCodePage> extends State {
+class _LoginByCodeState<LoginByCodePage> extends State {
   Timer _timer;
   int _countdownTime = 0;
-  var telephone = "";
-  var code = "";
+  var _telephone = "";
+  var _code = "";
 
   void startCountdownTimer() {
     const oneSec = const Duration(seconds: 1);
@@ -46,7 +50,7 @@ class LoginByCodeState<LoginByCodePage> extends State {
               color: Colors.white,
               child: TextFormField(
                 keyboardType: TextInputType.number,
-                onChanged: (value) => setState(() => telephone = value),
+                onChanged: (value) => setState(() => _telephone = value),
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: "请输入手机号",
@@ -63,7 +67,7 @@ class LoginByCodeState<LoginByCodePage> extends State {
                   Expanded(
                     child: TextField(
                       keyboardType: TextInputType.number,
-                      onChanged: (value) => setState(() => code = value),
+                      onChanged: (value) => setState(() => _code = value),
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: "请输入验证码",
@@ -77,7 +81,7 @@ class LoginByCodeState<LoginByCodePage> extends State {
                       disabledTextColor: Colors.grey,
                       onPressed: () {
                         String result = validationTextField(
-                            "手机号码", telephone, r"^1[3456789](\d){9}$");
+                            "手机号码", _telephone, r"^1[3456789](\d){9}$");
                         if (result != null) {
                           Toast.show(result, context, gravity: Toast.CENTER);
                           return null;
@@ -127,8 +131,8 @@ class LoginByCodeState<LoginByCodePage> extends State {
 
   void _onTapLoginByCode() {
     String telMatch =
-        validationTextField("手机号码", telephone, r"^1[3456789](\d){9}$");
-    String codeMath = validationTextField("验证码", code, r"^(\d){4}$");
+        validationTextField("手机号码", _telephone, r"^1[3456789](\d){9}$");
+    String codeMath = validationTextField("验证码", _code, r"^(\d){4}$");
     if (telMatch != null) {
       Toast.show(telMatch, context, gravity: Toast.CENTER);
       return;
@@ -138,5 +142,18 @@ class LoginByCodeState<LoginByCodePage> extends State {
       return;
     }
     //验证码登录
+    loginByCode();
+  }
+
+  void loginByCode() async {
+    showDialog(context: context, builder: (context) => new LoadingDialog());
+    var res = await NetUtils.getInstance(context)
+        .post("user/login_by_code", {"telephone": _telephone, "code": _code});
+    Navigator.pop(context);
+    if (res != null && res["data"] != null) {
+      LoginResult loginResult = LoginResult.fromJson(res["data"]);
+      CommonUser.getInstance().setLoginResult(loginResult);
+      Navigator.pop(context, true);
+    }
   }
 }

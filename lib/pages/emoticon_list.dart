@@ -40,7 +40,7 @@ class EmoticonListState extends State<EmoticonList>
     });
     var res = await NetUtils.getInstance(context)
         .get("emoticon/search?keyword=$keyword&page=$page");
-    if (res["data"] != null) {
+    if (res != null && res["data"] != null) {
       if (res["data"].isEmpty) {
         setState(() {
           _noData = true;
