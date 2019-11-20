@@ -102,14 +102,18 @@ class ImagePreviewState extends State<ImagePreview> {
     String suffix = (url as String).split(".").last;
     String path =
         await ImageSave.saveImage(suffix, Uint8List.fromList(res.data));
-    Toast.show(path != null ? "成功保存图片到相册" : "保存失败", context);
+    Toast.show(
+        Platform.isAndroid && path == null ? "(╥╯^╰╥)，保存失败了" : "ヾ(^▽^ヾ)，保存成功啦",
+        context);
   }
 
   _shareToQQ(url) {}
 
   _shareToWX(url) {}
 
-  _collect(url) {}
+  _collect(url) {
+    
+  }
 
   @override
   Widget build(BuildContext context) {

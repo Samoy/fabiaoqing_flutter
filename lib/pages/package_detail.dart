@@ -48,49 +48,47 @@ class DetailState extends State<DetailPage> {
         title: Text("表情包详情"),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-            padding: EdgeInsets.all(8),
-            child: Center(
-              child: Column(
-                children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 8, top: 8, right: 8),
-                        child: Text(
-                          packageName,
-                          style: TextStyle(
-                              fontSize: 19,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      )
-                    ] +
-                    _emoticonList
-                        .map((f) => Padding(
-                              child: GestureDetector(
-                                child: Image.network(f.url, fit: BoxFit.cover),
-                                onTap: () {
-                                  Navigator.of(context).push(PageRouteBuilder(
-                                      pageBuilder: (context, animation,
-                                          secondAnimation) {
-                                    return new ImagePreview(
-                                      currentIndex: _emoticonList.indexOf(f),
-                                      imageUrlList: _emoticonList
-                                          .map((item) => item.url
-                                              .replaceAll("bmiddle", "large"))
-                                          .toList(),
-                                    );
-                                  }, transitionsBuilder: (context, animation,
-                                          secondAnimation, child) {
-                                    return AnimationUtils.createScaleTransition(
-                                        animation, child);
-                                  }));
-                                },
-                              ),
-                              padding: EdgeInsets.all(8),
-                            ))
-                        .toList(),
-              ),
-            )),
+        child: Center(
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 8, top: 8, right: 8),
+                child: Text(
+                  packageName,
+                  style: TextStyle(
+                      fontSize: 19,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              )
+            ] +
+                _emoticonList
+                    .map((f) => Padding(
+                  child: GestureDetector(
+                    child: Image.network(f.url, fit: BoxFit.cover),
+                    onTap: () {
+                      Navigator.of(context).push(PageRouteBuilder(
+                          pageBuilder: (context, animation,
+                              secondAnimation) {
+                            return new ImagePreview(
+                              currentIndex: _emoticonList.indexOf(f),
+                              imageUrlList: _emoticonList
+                                  .map((item) => item.url
+                                  .replaceAll("bmiddle", "large"))
+                                  .toList(),
+                            );
+                          }, transitionsBuilder: (context, animation,
+                          secondAnimation, child) {
+                        return AnimationUtils.createScaleTransition(
+                            animation, child);
+                      }));
+                    },
+                  ),
+                  padding: EdgeInsets.all(8),
+                ))
+                    .toList(),
+          ),
+        ),
       ),
     );
   }

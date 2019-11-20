@@ -60,7 +60,7 @@ class EmoticonListState extends State<EmoticonList>
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => new DetailPage(package.objectId, package.name),
+        builder: (context) => new DetailPage(package.objectId, package._name),
       ),
     );
   }
@@ -89,33 +89,40 @@ class EmoticonListState extends State<EmoticonList>
         title: Text("与“$keyword”相关的表情"),
       ),
       body: SmartRefresher(
-        child: ListView.builder(
-            itemCount: _emoticonList.length,
-            itemBuilder: (context, index) {
-              Emoticon emoticon = _emoticonList[index];
-              return InkWell(
-                child: Image.network(
-                  emoticon.url,
-                  width: screenWidth,
-                ),
-                onTap: () {
-                  Navigator.of(context).push(PageRouteBuilder(
-                      pageBuilder: (context, animation, secondAnimation) {
-                    return new ImagePreview(
-                      currentIndex: _emoticonList.indexOf(emoticon),
-                      imageUrlList: _emoticonList
-                          .map(
-                              (item) => item.url.replaceAll("bmiddle", "large"))
-                          .toList(),
-                    );
-                  }, transitionsBuilder:
-                          (context, animation, secondAnimation, child) {
-                    return AnimationUtils.createScaleTransition(
-                        animation, child);
-                  }));
-                },
-              );
-            }),
+        child: Padding(
+          padding: EdgeInsets.all(12),
+          child: ListView.separated(
+              separatorBuilder: (context, index) => Divider(
+                    height: 12,
+                    color: Colors.white,
+                  ),
+              itemCount: _emoticonList.length,
+              itemBuilder: (context, index) {
+                Emoticon emoticon = _emoticonList[index];
+                return InkWell(
+                  child: Image.network(
+                    emoticon.url,
+                    width: screenWidth,
+                  ),
+                  onTap: () {
+                    Navigator.of(context).push(PageRouteBuilder(
+                        pageBuilder: (context, animation, secondAnimation) {
+                      return new ImagePreview(
+                        currentIndex: _emoticonList.indexOf(emoticon),
+                        imageUrlList: _emoticonList
+                            .map((item) =>
+                                item.url.replaceAll("bmiddle", "large"))
+                            .toList(),
+                      );
+                    }, transitionsBuilder:
+                            (context, animation, secondAnimation, child) {
+                      return AnimationUtils.createScaleTransition(
+                          animation, child);
+                    }));
+                  },
+                );
+              }),
+        ),
         enablePullDown: true,
         enablePullUp: true,
         header: MaterialClassicHeader(),

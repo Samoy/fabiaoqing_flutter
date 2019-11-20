@@ -40,7 +40,6 @@ class NetUtils {
 
   Future post(String path, Map<String, dynamic> params,
       {Map<String, dynamic> headers}) async {
-    print("上下文:$_context");
     try {
       Response response = await dio.post(base_url + path,
           queryParameters: params, options: Options(headers: headers));

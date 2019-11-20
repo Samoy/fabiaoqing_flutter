@@ -53,6 +53,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         index: _selectedIndex,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        elevation: 0,
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(

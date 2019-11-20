@@ -1,6 +1,7 @@
 import 'package:fabiaoqing/common/common_user.dart';
 import 'package:fabiaoqing/models/index.dart';
 import 'package:fabiaoqing/pages/login.dart';
+import 'package:fabiaoqing/pages/profile.dart';
 import 'package:fabiaoqing/utils/net_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -197,12 +198,21 @@ class _MeState extends State {
     );
   }
 
-  void _onTapAvatar() {
+  void _onTapAvatar() async {
     if (CommonUser.getInstance().isLogin()) {
-      //TODO:跳转个人资料页
+      var logoutSuccess = await Navigator.push(context,
+          MaterialPageRoute(builder: (context) => ProfilePage(_nickname)));
+      if (logoutSuccess) {
+        setState(() {
+          _nickname = "未登录用户";
+        });
+      }
     } else {
-      Navigator.of(context)
+      var loginSuccess = await Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => LoginPage()));
+      if (loginSuccess) {
+        _getProfile();
+      }
     }
   }
 

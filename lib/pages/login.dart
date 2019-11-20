@@ -169,7 +169,7 @@ class _LoginState extends State<LoginPage> {
     if (res["data"] != null) {
       LoginResult loginResult = LoginResult.fromJson(res["data"]);
       CommonUser.getInstance().setLoginResult(loginResult);
-      Navigator.pop(context);
+      Navigator.pop(context, true);
     }
   }
 }
