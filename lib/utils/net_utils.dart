@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:fabiaoqing/common/api_result_code.dart';
+import 'package:fabiaoqing/common/common_user.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
@@ -20,8 +22,11 @@ class NetUtils {
     _context = context;
     dio.interceptors.add(InterceptorsWrapper(onResponse: (response) {
       Map<String, dynamic> res = response.data;
-      if (res["code"] != 10000) {
+      if (res["code"] != REQUEST_SUCCESS) {
         Toast.show("${res["message"]}", context);
+      }
+      if (res["code"] == LOGIN_EXPIRED) {
+        CommonUser.getInstance().logout();
       }
     }, onError: (error) {
       Toast.show("服务器错误:${error.message}", context);

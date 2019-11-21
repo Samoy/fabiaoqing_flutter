@@ -150,10 +150,7 @@ class PackagesState extends State<PackagesWidget>
                                   return new ImagePreview(
                                     currentIndex:
                                         package.list.indexOf(emoticon),
-                                    imageUrlList: package.list
-                                        .map((f) => f.url
-                                            .replaceAll("bmiddle", "large"))
-                                        .toList(),
+                                    imageList: package.list,
                                   );
                                 }, transitionsBuilder: (context, animation,
                                         secondAnimation, child) {

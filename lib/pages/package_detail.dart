@@ -72,10 +72,7 @@ class DetailState extends State<DetailPage> {
                               secondAnimation) {
                             return new ImagePreview(
                               currentIndex: _emoticonList.indexOf(f),
-                              imageUrlList: _emoticonList
-                                  .map((item) => item.url
-                                  .replaceAll("bmiddle", "large"))
-                                  .toList(),
+                              imageList: _emoticonList,
                             );
                           }, transitionsBuilder: (context, animation,
                           secondAnimation, child) {

@@ -1,5 +1,6 @@
 import 'package:fabiaoqing/common/common_user.dart';
 import 'package:fabiaoqing/models/index.dart';
+import 'package:fabiaoqing/pages/favorite_page.dart';
 import 'package:fabiaoqing/pages/login.dart';
 import 'package:fabiaoqing/pages/profile.dart';
 import 'package:fabiaoqing/utils/net_utils.dart';
@@ -94,14 +95,14 @@ class _MeState extends State {
                   child: Column(
                     children: <Widget>[
                       Image.asset(
-                        "images/favorite.jpeg",
+                        "images/diy.jpeg",
                         width: 60,
                         height: 40,
                         fit: BoxFit.contain,
                       ),
                       Container(
                         child: Text(
-                          "表情图库",
+                          "我的杰作",
                           textAlign: TextAlign.center,
                         ),
                         margin: EdgeInsets.only(top: 8),
@@ -109,13 +110,13 @@ class _MeState extends State {
                     ],
                     mainAxisAlignment: MainAxisAlignment.center,
                   ),
-                  onTap: _onTapMyFavorite,
+                  onTap: _onTapMyDiy,
                 ),
                 InkWell(
                   child: Column(
                     children: <Widget>[
                       Image.asset(
-                        "images/diy.jpeg",
+                        "images/favorite.jpeg",
                         width: 60,
                         height: 40,
                         fit: BoxFit.contain,
@@ -151,7 +152,7 @@ class _MeState extends State {
                     ],
                     mainAxisAlignment: MainAxisAlignment.end,
                   ),
-                  onTap: _onTapMyFavorite,
+                  onTap: _onTapHistory,
                 ),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -216,9 +217,14 @@ class _MeState extends State {
     }
   }
 
+  void _onTapMyDiy() {}
+
   void _onTapMyFavorite() {
-    print("点击我的收藏");
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => FavoritePage()));
   }
+
+  void _onTapHistory() {}
 
   void _onTapRow() {
     print("点击了一行");

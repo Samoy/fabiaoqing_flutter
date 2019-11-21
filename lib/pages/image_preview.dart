@@ -1,5 +1,9 @@
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:fabiaoqing/common/api_result_code.dart';
+import 'package:fabiaoqing/common/common_user.dart';
+import 'package:fabiaoqing/models/emoticon.dart';
+import 'package:fabiaoqing/utils/net_utils.dart';
 import 'package:toast/toast.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
@@ -8,21 +12,21 @@ import 'package:flutter/material.dart';
 import 'package:image_save/image_save.dart';
 
 class ImagePreview extends StatefulWidget {
-  final currentIndex;
-  final imageUrlList;
+  final int currentIndex;
+  final List<Emoticon> imageList;
 
-  const ImagePreview({Key key, this.currentIndex, this.imageUrlList})
+  const ImagePreview({Key key, this.currentIndex, this.imageList})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return new ImagePreviewState(currentIndex, imageUrlList);
+    return new ImagePreviewState(currentIndex, imageList);
   }
 }
 
 class ImagePreviewState extends State<ImagePreview> {
   final currentIndex;
-  final _imageUrlList;
+  final List<Emoticon> _imageList;
   int _imageHeight = 0;
   PageController _controller;
   final List<String> _shareChannels = [
@@ -33,7 +37,7 @@ class ImagePreviewState extends State<ImagePreview> {
     "取消"
   ];
 
-  ImagePreviewState(this.currentIndex, this._imageUrlList);
+  ImagePreviewState(this.currentIndex, this._imageList);
 
   @override
   void initState() {
@@ -41,24 +45,24 @@ class ImagePreviewState extends State<ImagePreview> {
     _controller = PageController(initialPage: currentIndex);
   }
 
-  _onTapShare(int index, String url) {
+  _onTapShare(int index, Emoticon emoticon) {
     Navigator.pop(context);
     switch (index) {
       //保存到手机
       case 0:
-        _saveImageToAlbum(url);
+        _saveImageToAlbum(emoticon.url);
         break;
       //分享到QQ
       case 1:
-        _shareToQQ(url);
+        _shareToQQ(emoticon.url);
         break;
       //分享到微信
       case 2:
-        _shareToWX(url);
+        _shareToWX(emoticon.url);
         break;
       //收藏
       case 3:
-        _collect(url);
+        _collect(emoticon.objectId);
         break;
     }
   }
@@ -111,18 +115,25 @@ class ImagePreviewState extends State<ImagePreview> {
 
   _shareToWX(url) {}
 
-  _collect(url) {
-    
+  _collect(emoticonId) async {
+    var res = await NetUtils.getInstance(context).post("favorite/add", {
+      "userId": CommonUser.getInstance().getUserId(),
+      "emoticonId": emoticonId
+    }, headers: {
+      "token": CommonUser.getInstance().getToken()
+    });
+    if (res != null && res["code"] == REQUEST_SUCCESS) {
+      Toast.show("ヾ(^▽^ヾ)，收藏成功啦", context);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    var imageUrlList = _imageUrlList as List<String>;
     var screenHeight = window.physicalSize.height;
     return new PageView(
-      children: imageUrlList.map((url) {
+      children: _imageList.map((image) {
         var imageWidget = Image.network(
-          url,
+          image.url.replaceAll("bmiddle", "large"),
           fit: BoxFit.fitWidth,
         );
         imageWidget.image
@@ -159,7 +170,7 @@ class ImagePreviewState extends State<ImagePreview> {
                                   _shareChannels[index],
                                   textAlign: TextAlign.center,
                                 ),
-                                onTap: () => _onTapShare(index, url),
+                                onTap: () => _onTapShare(index, image),
                               ),
                               Container(
                                 height: dividerHeight,

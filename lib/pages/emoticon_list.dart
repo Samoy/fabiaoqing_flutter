@@ -53,6 +53,7 @@ class EmoticonListState extends State<EmoticonList>
           _emoticonList.add(emoticon);
         });
       }
+      return;
     }
   }
 
@@ -108,12 +109,8 @@ class EmoticonListState extends State<EmoticonList>
                     Navigator.of(context).push(PageRouteBuilder(
                         pageBuilder: (context, animation, secondAnimation) {
                       return new ImagePreview(
-                        currentIndex: _emoticonList.indexOf(emoticon),
-                        imageUrlList: _emoticonList
-                            .map((item) =>
-                                item.url.replaceAll("bmiddle", "large"))
-                            .toList(),
-                      );
+                          currentIndex: _emoticonList.indexOf(emoticon),
+                          imageList: _emoticonList);
                     }, transitionsBuilder:
                             (context, animation, secondAnimation, child) {
                       return AnimationUtils.createScaleTransition(

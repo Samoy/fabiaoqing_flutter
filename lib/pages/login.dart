@@ -152,7 +152,7 @@ class _LoginState extends State<LoginPage> {
     var loginSuccess = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => LoginByCodePage()));
     if (loginSuccess) {
-      Navigator.pop(context);
+      Navigator.pop(context, true);
     }
   }
 
