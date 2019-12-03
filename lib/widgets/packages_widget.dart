@@ -1,3 +1,4 @@
+import 'package:fabiaoqing/utils/cache_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -136,7 +137,8 @@ class PackagesState extends State<PackagesWidget>
                             return GestureDetector(
                               child: Container(
                                 margin: EdgeInsets.only(left: 4, right: 4),
-                                child: Image.network(
+                                child: CacheUtils.cacheNetworkImage(
+                                  context,
                                   emoticon.url,
                                   width: imgWidth,
                                   height: imgWidth,

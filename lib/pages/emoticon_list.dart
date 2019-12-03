@@ -1,3 +1,4 @@
+import 'package:fabiaoqing/utils/cache_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -101,7 +102,8 @@ class EmoticonListState extends State<EmoticonList>
               itemBuilder: (context, index) {
                 Emoticon emoticon = _emoticonList[index];
                 return InkWell(
-                  child: Image.network(
+                  child: CacheUtils.cacheNetworkImage(
+                    context,
                     emoticon.url,
                     width: screenWidth,
                   ),

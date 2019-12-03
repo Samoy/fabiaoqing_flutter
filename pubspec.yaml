@@ -27,6 +27,8 @@ dependencies:
   image_save: ^1.0.1
   permission_handler: ^3.0.0
   shared_preferences: ^0.5.4+3
+  path_provider: ^1.4.2
+  cached_network_image: ^1.1.3
 
 dev_dependencies:
   flutter_test:
@@ -55,6 +57,8 @@ flutter:
     - images/history.jpeg
     - images/bg.jpg
     - images/loading.gif
+    - images/cache.png
+    - images/feedback.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

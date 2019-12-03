@@ -43,6 +43,7 @@ class TagState extends State<TagPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.grey[200],
         appBar: AppBar(
           title: Text("标签墙"),
           elevation: 0,

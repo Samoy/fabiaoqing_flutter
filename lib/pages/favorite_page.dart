@@ -4,6 +4,7 @@ import 'package:fabiaoqing/models/emoticon.dart';
 import 'package:fabiaoqing/pages/image_preview.dart';
 import 'package:fabiaoqing/utils/alert_utils.dart';
 import 'package:fabiaoqing/utils/animation_utils.dart';
+import 'package:fabiaoqing/utils/cache_utils.dart';
 import 'package:fabiaoqing/utils/net_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -46,7 +47,8 @@ class _FavoriteState extends State<FavoritePage> {
           padding: EdgeInsets.all(8),
           children: _favoriteList
               .map((emoticon) => InkWell(
-                    child: Image.network(
+                    child: CacheUtils.cacheNetworkImage(
+                      context,
                       emoticon.url,
                       fit: BoxFit.cover,
                       width: imgWidth,
