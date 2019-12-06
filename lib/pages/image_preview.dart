@@ -108,7 +108,8 @@ class ImagePreviewState extends State<ImagePreview> {
         await ImageSave.saveImage(suffix, Uint8List.fromList(res.data));
     Toast.show(
         Platform.isAndroid && path == null ? "(╥╯^╰╥)，保存失败了" : "ヾ(^▽^ヾ)，保存成功啦",
-        context);
+        context,
+        gravity: Toast.CENTER);
   }
 
   _shareToQQ(url) {}
@@ -123,7 +124,7 @@ class ImagePreviewState extends State<ImagePreview> {
       "token": CommonUser.getInstance().getToken()
     });
     if (res != null && res["code"] == REQUEST_SUCCESS) {
-      Toast.show("ヾ(^▽^ヾ)，收藏成功啦", context);
+      Toast.show("ヾ(^▽^ヾ)，收藏成功啦", context, gravity: Toast.CENTER);
     }
   }
 

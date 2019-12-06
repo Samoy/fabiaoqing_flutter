@@ -7,6 +7,7 @@ import 'package:fabiaoqing/utils/alert_utils.dart';
 import 'package:fabiaoqing/utils/cache_utils.dart';
 import 'package:fabiaoqing/utils/file_utils.dart';
 import 'package:fabiaoqing/utils/net_utils.dart';
+import 'package:fabiaoqing/widgets/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:image_pickers/image_pickers.dart';
 import 'package:image_pickers/CorpConfig.dart';
@@ -143,7 +144,7 @@ class _ProfileState extends State<ProfilePage>
   _tapRow(int index) {
     switch (index) {
       case 0:
-        Toast.show("暂不支持修改头像", context);
+        Toast.show("暂不支持修改头像", context, gravity: Toast.CENTER);
         //selectImages();
         break;
       case 1:
@@ -209,11 +210,13 @@ class _ProfileState extends State<ProfilePage>
       "nickname": _newUser.nickname,
       "description": _newUser.description
     });
+    showDialog(context: context, builder: (context) => new LoadingDialog());
     var res = await NetUtils.getInstance(context).filePost(
         "user/change_profile", formData,
         headers: {"token": CommonUser.getInstance().getToken()});
+    Navigator.pop(context);
     if (res != null && res["data"] != null) {
-      Toast.show("ヾ(^▽^ヾ)，保存成功啦", context);
+      Toast.show("ヾ(^▽^ヾ)，保存成功啦", context, gravity: Toast.CENTER);
       setState(() {
         _newUser = User.fromJson(res["data"]);
         _user = User.fromJson(res["data"]);

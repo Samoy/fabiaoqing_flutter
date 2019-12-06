@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:fabiaoqing/common/common_user.dart';
 import 'package:fabiaoqing/models/index.dart';
 import 'package:fabiaoqing/pages/favorite_page.dart';
+import 'package:fabiaoqing/pages/feedback.dart';
 import 'package:fabiaoqing/pages/login.dart';
 import 'package:fabiaoqing/pages/profile.dart';
 import 'package:fabiaoqing/utils/cache_utils.dart';
@@ -273,6 +274,10 @@ class _MeState extends State {
         setState(() {
           _cacheSize = "0.00B";
         });
+        break;
+      case 1:
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => FeedbackPage()));
         break;
       default:
         break;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AlertUtils {
   static Future<void> showAlert(BuildContext context, String title,
-      {String message = "", onOK()}) async {
+      {String message = "", onOK(), bool canCancel = true}) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -18,10 +18,12 @@ class AlertUtils {
                 Navigator.pop(context);
               },
             ),
-            FlatButton(
-              child: Text('取消'),
-              onPressed: () => Navigator.pop(context),
-            ),
+            canCancel
+                ? FlatButton(
+                    child: Text('取消'),
+                    onPressed: () => Navigator.pop(context),
+                  )
+                : null,
           ],
         );
       },

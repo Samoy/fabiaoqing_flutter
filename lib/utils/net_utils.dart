@@ -24,13 +24,13 @@ class NetUtils {
     dio.interceptors.add(InterceptorsWrapper(onResponse: (response) {
       Map<String, dynamic> res = response.data;
       if (res["code"] != REQUEST_SUCCESS) {
-        Toast.show("${res["message"]}", context);
+        Toast.show("${res["message"]}", context, gravity: Toast.CENTER);
       }
       if (res["code"] == LOGIN_EXPIRED) {
         CommonUser.getInstance().logout();
       }
     }, onError: (error) {
-      Toast.show("服务器错误:${error.message}", context);
+      Toast.show("服务器错误:${error.message}", context, gravity: Toast.CENTER);
     }));
   }
 
@@ -40,7 +40,7 @@ class NetUtils {
           await dio.get(base_url + path, options: Options(headers: headers));
       return response.data as Map<String, dynamic>;
     } on DioError catch (e) {
-      Toast.show("${e.toString()}", _context);
+      Toast.show("${e.toString()}", _context, gravity: Toast.CENTER);
     }
   }
 
@@ -51,7 +51,7 @@ class NetUtils {
           queryParameters: data, options: Options(headers: headers));
       return response.data;
     } on DioError catch (e) {
-      Toast.show("${e.message}", _context);
+      Toast.show("${e.message}", _context, gravity: Toast.CENTER);
     }
   }
 
@@ -62,7 +62,7 @@ class NetUtils {
           data: formData, options: Options(headers: headers));
       return response.data;
     } on DioError catch (e) {
-      Toast.show("${e.message}", _context);
+      Toast.show("${e.message}", _context, gravity: Toast.CENTER);
     }
   }
 }

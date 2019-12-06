@@ -134,7 +134,7 @@ class _FavoriteState extends State<FavoritePage> {
       "token": CommonUser.getInstance().getToken()
     });
     if (res != null && res["code"] == REQUEST_SUCCESS) {
-      Toast.show("(๑•̀ㅂ•́)و✧，删除收藏成功", context);
+      Toast.show("(๑•̀ㅂ•́)و✧，删除收藏成功", context, gravity: Toast.CENTER);
       setState(() {
         _favoriteList.remove(
             _favoriteList.firstWhere((it) => it.objectId == emoticonId));

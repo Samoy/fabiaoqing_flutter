@@ -59,7 +59,7 @@ class CacheUtils {
   }
 
   static Future clearCache(BuildContext context) async {
-    Toast.show('清除缓存成功', context);
+    Toast.show('清除缓存成功', context, gravity: Toast.CENTER);
     Directory tempDir = await getTemporaryDirectory();
     return await delDir(tempDir);
   }

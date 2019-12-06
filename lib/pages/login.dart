@@ -163,7 +163,6 @@ class _LoginState extends State<LoginPage> {
 
   void login() async {
     showDialog(context: context, builder: (context) => new LoadingDialog());
-    print("登录参数:$telephone---$password");
     var res = await NetUtils.getInstance(context)
         .post("user/login", {"telephone": telephone, "password": password});
     Navigator.pop(context);
