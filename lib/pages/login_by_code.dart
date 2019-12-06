@@ -1,3 +1,4 @@
+import 'package:fabiaoqing/common/api_result_code.dart';
 import 'package:fabiaoqing/common/common_user.dart';
 import 'package:fabiaoqing/models/index.dart';
 import 'package:fabiaoqing/utils/net_utils.dart';
@@ -79,15 +80,18 @@ class _LoginByCodeState<LoginByCodePage> extends State {
                           _countdownTime > 0 ? "${_countdownTime}s" : "获取验证码"),
                       textColor: Colors.deepOrangeAccent,
                       disabledTextColor: Colors.grey,
-                      onPressed: () {
-                        String result = validationTextField(
-                            "手机号码", _telephone, r"^1[3456789](\d){9}$");
-                        if (result != null) {
-                          Toast.show(result, context, gravity: Toast.CENTER);
-                          return null;
-                        }
-                        return _countdownTime > 0 ? null : _onTapSendCode;
-                      })
+                      onPressed: _countdownTime > 0
+                          ? null
+                          : () {
+                              String result = validationTextField(
+                                  "手机号码", _telephone, r"^1[3456789](\d){9}$");
+                              if (result != null) {
+                                Toast.show(result, context,
+                                    gravity: Toast.CENTER);
+                                return null;
+                              }
+                              return _onTapSendCode();
+                            })
                 ],
               ),
             ),
@@ -127,12 +131,21 @@ class _LoginByCodeState<LoginByCodePage> extends State {
       _countdownTime = 60;
     });
     startCountdownTimer();
+    _sendCode();
+  }
+
+  void _sendCode() async {
+    var res = await NetUtils.getInstance(context)
+        .post("user/send_code", {"telephone": _telephone});
+    if (res != null && res["code"] == REQUEST_SUCCESS) {
+      Toast.show("验证码发送成功", context, gravity: Toast.CENTER);
+    }
   }
 
   void _onTapLoginByCode() {
     String telMatch =
         validationTextField("手机号码", _telephone, r"^1[3456789](\d){9}$");
-    String codeMath = validationTextField("验证码", _code, r"^(\d){4}$");
+    String codeMath = validationTextField("验证码", _code, r"^(\d){6}$");
     if (telMatch != null) {
       Toast.show(telMatch, context, gravity: Toast.CENTER);
       return;

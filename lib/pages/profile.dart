@@ -212,7 +212,7 @@ class _ProfileState extends State<ProfilePage>
     });
     showDialog(context: context, builder: (context) => new LoadingDialog());
     var res = await NetUtils.getInstance(context).filePost(
-        "user/change_profile", formData,
+        "user/update_profile", formData,
         headers: {"token": CommonUser.getInstance().getToken()});
     Navigator.pop(context);
     if (res != null && res["data"] != null) {

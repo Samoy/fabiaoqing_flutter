@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fabiaoqing/utils/validation_utils.dart';
 import 'package:toast/toast.dart';
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -163,8 +165,10 @@ class _LoginState extends State<LoginPage> {
 
   void login() async {
     showDialog(context: context, builder: (context) => new LoadingDialog());
-    var res = await NetUtils.getInstance(context)
-        .post("user/login", {"telephone": telephone, "password": password});
+    var res = await NetUtils.getInstance(context).post("user/login", {
+      "telephone": telephone,
+      "password": md5.convert(Utf8Encoder().convert(password))
+    });
     Navigator.pop(context);
     if (res["data"] != null) {
       LoginResult loginResult = LoginResult.fromJson(res["data"]);
