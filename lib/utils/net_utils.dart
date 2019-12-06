@@ -4,7 +4,8 @@ import 'package:fabiaoqing/common/common_user.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
-const base_url = "https://biaoqing.samoy.fun/";
+const base_url = "http://localhost:8080/";
+//const base_url = "https://biaoqing.samoy.fun/";
 
 class NetUtils {
   var dio = new Dio();
@@ -43,11 +44,22 @@ class NetUtils {
     }
   }
 
-  Future post(String path, Map<String, dynamic> params,
+  Future post(String path, Map<String, dynamic> data,
       {Map<String, dynamic> headers}) async {
     try {
       Response response = await dio.post(base_url + path,
-          queryParameters: params, options: Options(headers: headers));
+          queryParameters: data, options: Options(headers: headers));
+      return response.data;
+    } on DioError catch (e) {
+      Toast.show("${e.message}", _context);
+    }
+  }
+
+  Future filePost(String path, FormData formData,
+      {Map<String, dynamic> headers}) async {
+    try {
+      Response response = await dio.post(base_url + path,
+          data: formData, options: Options(headers: headers));
       return response.data;
     } on DioError catch (e) {
       Toast.show("${e.message}", _context);

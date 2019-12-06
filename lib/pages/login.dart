@@ -149,7 +149,7 @@ class _LoginState extends State<LoginPage> {
   }
 
   void _onTapCodeLogin() async {
-    var loginSuccess = await Navigator.of(context)
+    bool loginSuccess = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => LoginByCodePage()));
     if (loginSuccess) {
       Navigator.pop(context, true);
@@ -163,6 +163,7 @@ class _LoginState extends State<LoginPage> {
 
   void login() async {
     showDialog(context: context, builder: (context) => new LoadingDialog());
+    print("登录参数:$telephone---$password");
     var res = await NetUtils.getInstance(context)
         .post("user/login", {"telephone": telephone, "password": password});
     Navigator.pop(context);

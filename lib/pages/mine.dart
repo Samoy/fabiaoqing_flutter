@@ -19,30 +19,32 @@ class MinePage extends StatefulWidget {
 class _MeState extends State {
   final _operationList = [
     {
-      "title": "用户反馈",
-      "icon": Image.asset("images/feedback.png"),
-    },
-    {
       "title": "清除缓存",
-      "icon": Image.asset("images/cache.png"),
-    },
-    {
-      "title": "夜间模式",
-      "icon": Icon(
-        Icons.ac_unit,
+      "icon": Image.asset(
+        "images/cache.png",
+        width: 22,
+        height: 22,
       ),
     },
     {
-      "title": "关于我们",
-      "icon": Icon(
-        Icons.ac_unit,
-      )
+      "title": "用户反馈",
+      "icon": Image.asset(
+        "images/feedback.png",
+        width: 22,
+        height: 22,
+      ),
+    },
+    {
+      "title": "设置",
+      "icon": Image.asset(
+        "images/settings.png",
+        width: 22,
+        height: 22,
+      ),
     }
   ];
 
-  String _nickname = "未登录用户";
-  String _avatarUrl =
-      "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1624240531,2195794812&fm=26&gp=0.jpg";
+  User _currentUser;
 
   String _cacheSize = "0.00B";
 
@@ -75,7 +77,10 @@ class _MeState extends State {
                         ClipOval(
                           child: CacheUtils.cacheNetworkImage(
                             context,
-                            _avatarUrl,
+                            _currentUser != null &&
+                                    _currentUser.avatar.isNotEmpty
+                                ? _currentUser.avatar
+                                : "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1624240531,2195794812&fm=26&gp=0.jpg",
                             width: 80.toDouble(),
                             height: 80.toDouble(),
                           ),
@@ -84,7 +89,9 @@ class _MeState extends State {
                           margin: EdgeInsets.only(left: 12),
                           child: Column(children: <Widget>[
                             Text(
-                              _nickname,
+                              _currentUser == null
+                                  ? "未登录用户"
+                                  : _currentUser.nickname,
                               style: TextStyle(
                                 fontSize: 18,
                               ),
@@ -190,7 +197,7 @@ class _MeState extends State {
                   itemBuilder: (context, index) {
                     var operation = _operationList[index];
                     Widget rightWidget = Icon(Icons.chevron_right);
-                    if (index == 1) {
+                    if (index == 0) {
                       rightWidget = Text(_cacheSize);
                     }
                     return InkWell(
@@ -220,7 +227,6 @@ class _MeState extends State {
                       onTap: () => _onTapRow(operation, index),
                     );
                   },
-                  //separatorBuilder: (context, index) => Divider(),
                   itemCount: _operationList.length),
             ),
           )
@@ -231,17 +237,21 @@ class _MeState extends State {
 
   void _onTapAvatar() async {
     if (CommonUser.getInstance().isLogin()) {
-      var logoutSuccess = await Navigator.push(context,
-          MaterialPageRoute(builder: (context) => ProfilePage(_nickname)));
-      if (logoutSuccess) {
-        setState(() {
-          _nickname = "未登录用户";
-        });
-      }
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ProfilePage(
+                    _currentUser,
+                    onChangeProfile: (User user) {
+                      setState(() {
+                        _currentUser = user;
+                      });
+                    },
+                  )));
     } else {
       var loginSuccess = await Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => LoginPage()));
-      if (loginSuccess) {
+      if (loginSuccess != null && loginSuccess) {
         _getProfile();
       }
     }
@@ -258,7 +268,7 @@ class _MeState extends State {
 
   void _onTapRow(Map<String, Object> operation, int index) async {
     switch (index) {
-      case 1:
+      case 0:
         CacheUtils.clearCache(context);
         setState(() {
           _cacheSize = "0.00B";
@@ -276,11 +286,8 @@ class _MeState extends State {
           "user/profile?userId=${user.getUserId()}",
           headers: {"token": user.getToken()});
       if (res != null && res["data"] != null) {
-        User currentUser = User.fromJson(res["data"]);
         setState(() {
-          _nickname = currentUser.nickname;
-          _avatarUrl =
-              currentUser.avatar.isEmpty ? _avatarUrl : currentUser.avatar;
+          _currentUser = User.fromJson(res["data"]);
         });
       }
     }
@@ -288,7 +295,6 @@ class _MeState extends State {
 
   void _getCacheSize() async {
     var size = await CacheUtils.loadCache();
-    print("缓存:$size");
     setState(() {
       _cacheSize = size;
     });

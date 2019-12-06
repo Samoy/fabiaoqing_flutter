@@ -19,7 +19,6 @@ class CacheUtils {
 
   static Future<String> loadCache() async {
     Directory tempDir = await getTemporaryDirectory();
-    print("目录:$tempDir");
     double value = await _getTotalSizeOfFilesInDir(tempDir);
     return formatSize(value);
   }
