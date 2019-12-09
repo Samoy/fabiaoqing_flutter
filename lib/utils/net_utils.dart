@@ -4,8 +4,8 @@ import 'package:fabiaoqing/common/common_user.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
-//const base_url = "http://172.24.32.98:8080/";
-const base_url = "https://biaoqing.samoy.fun/";
+const base_url = "http://localhost:8080/";
+//const base_url = "https://biaoqing.samoy.fun/";
 
 class NetUtils {
   var dio = new Dio();

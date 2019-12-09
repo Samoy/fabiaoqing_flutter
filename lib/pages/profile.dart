@@ -47,7 +47,9 @@ class _ProfileState extends State<ProfilePage>
   @override
   void initState() {
     super.initState();
-    _newUser = User.fromJson(_user.toJson());
+    if (_user != null) {
+      _newUser = User.fromJson(_user.toJson());
+    }
   }
 
   @override
@@ -78,6 +80,7 @@ class _ProfileState extends State<ProfilePage>
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text("个人资料"),
+        elevation: 0,
         actions: <Widget>[
           FlatButton(
             child: Text("保存"),
@@ -223,22 +226,6 @@ class _ProfileState extends State<ProfilePage>
         _isEdit = false;
       });
       this.onChangeProfile(_newUser);
-    }
-  }
-
-  void _onTapLogout() {
-    AlertUtils.showAlert(context, "确定退出登录?", onOK: _logout);
-  }
-
-  _logout() async {
-    var res = await NetUtils.getInstance(context).post("user/logout", {
-      "userId": CommonUser.getInstance().getUserId(),
-    }, headers: {
-      "token": CommonUser.getInstance().getToken()
-    });
-    if (res != null && res["code"] == 10000) {
-      CommonUser.getInstance().logout();
-      Navigator.pop(context, true);
     }
   }
 }

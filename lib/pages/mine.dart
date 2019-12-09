@@ -6,9 +6,11 @@ import 'package:fabiaoqing/pages/favorite_page.dart';
 import 'package:fabiaoqing/pages/feedback.dart';
 import 'package:fabiaoqing/pages/login.dart';
 import 'package:fabiaoqing/pages/profile.dart';
+import 'package:fabiaoqing/pages/settings.dart';
 import 'package:fabiaoqing/utils/cache_utils.dart';
 import 'package:fabiaoqing/utils/net_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 
 class MinePage extends StatefulWidget {
   @override
@@ -261,6 +263,10 @@ class _MeState extends State {
   void _onTapMyDiy() {}
 
   void _onTapMyFavorite() {
+    if (!CommonUser.getInstance().isLogin()) {
+      Toast.show("╮(￣▽￣)╭，还未登录哦", context, gravity: Toast.CENTER);
+      return;
+    }
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => FavoritePage()));
   }
@@ -278,6 +284,16 @@ class _MeState extends State {
       case 1:
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => FeedbackPage()));
+        break;
+      case 2:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SettingsPage(
+                      onLogoutSuccess: () {
+                        _currentUser = null;
+                      },
+                    )));
         break;
       default:
         break;

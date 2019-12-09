@@ -112,7 +112,7 @@ class _LoginState extends State<LoginPage> {
                   children: <Widget>[
                     InkWell(
                       child: Text(
-                        "使用验证码",
+                        "快速登录/注册",
                         style: TextStyle(color: Colors.blueAccent),
                       ),
                       onTap: _onTapCodeLogin,

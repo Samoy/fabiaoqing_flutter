@@ -169,4 +169,10 @@ class _LoginByCodeState<LoginByCodePage> extends State {
       Navigator.pop(context, true);
     }
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _timer.cancel();
+  }
 }
