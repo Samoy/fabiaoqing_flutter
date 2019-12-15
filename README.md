@@ -8,7 +8,7 @@
 3. 更多信息参见(https://github.com/flutterchina/json_model/blob/master/README-ZH.md)
 
 ## Todo List
-- [ ] 搜索框应该是中文
+- [x] 搜索框应该是中文
 - [ ] "标签墙"页面添加搜索框
 - [ ] 版本更新功能实现
 - [ ] 开放头像修改功能

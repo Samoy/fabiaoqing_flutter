@@ -8,6 +8,9 @@ import '../widgets/packages_widget.dart';
 /// 3.历史记录
 class MySearchDelegate extends SearchDelegate {
   @override
+  String get searchFieldLabel => "请输入搜索内容";
+
+  @override
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
