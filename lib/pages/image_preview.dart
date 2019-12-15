@@ -107,11 +107,7 @@ class ImagePreviewState extends State<ImagePreview> {
     String suffix = (url as String).split(".").last;
     String path =
         await ImageSave.saveImage(suffix, Uint8List.fromList(res.data));
-    print("保存路径:$path");
-    Toast.show(
-        Platform.isAndroid && path == null ? "(╥╯^╰╥)，保存失败了" : "ヾ(^▽^ヾ)，保存成功啦",
-        context,
-        gravity: Toast.CENTER);
+    Toast.show(path == null ? "(╥╯^╰╥)，保存失败了" : "ヾ(^▽^ヾ)，保存成功啦", context);
   }
 
   _shareToQQ(url) {}
@@ -126,7 +122,7 @@ class ImagePreviewState extends State<ImagePreview> {
       "token": CommonUser.getInstance().getToken()
     });
     if (res != null && res["code"] == REQUEST_SUCCESS) {
-      Toast.show("ヾ(^▽^ヾ)，收藏成功啦", context, gravity: Toast.CENTER);
+      Toast.show("ヾ(^▽^ヾ)，收藏成功啦", context);
     }
   }
 
@@ -156,7 +152,7 @@ class ImagePreviewState extends State<ImagePreview> {
                 context: context,
                 builder: (context) {
                   return Container(
-                      //fixme:由于去掉了分享到第三方的功，因此高度降低了，原高度为295
+                      //fixme:由于去掉了分享到第三方的功能，因此高度降低了，原高度为295
                       height: 180,
                       child: ListView.builder(
                         itemBuilder: (context, index) {
