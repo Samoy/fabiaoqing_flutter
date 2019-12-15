@@ -16,7 +16,9 @@ class AlertUtils {
               child: Text('确定'),
               onPressed: () {
                 Navigator.pop(context);
-                onOK();
+                if (onOK != null) {
+                  onOK();
+                }
               },
             ),
             canCancel
@@ -94,8 +96,10 @@ class AlertUtils {
                         InkWell(
                           child: Text("确定"),
                           onTap: () {
-                            onOK(_text);
                             Navigator.pop(ctx);
+                            if (onOK != null) {
+                              onOK(_text);
+                            }
                           },
                         ),
                         Container(
@@ -116,7 +120,7 @@ class AlertUtils {
         });
   }
 
-  static Future showLoadingDialog(BuildContext context) {
+  static Future showLoading(BuildContext context) {
     return showDialog(
         context: context,
         builder: (context) => LoadingDialog(),

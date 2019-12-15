@@ -4,7 +4,6 @@ import 'package:fabiaoqing/pages/login_by_code.dart';
 import 'package:fabiaoqing/pages/forget_psd.dart';
 import 'package:fabiaoqing/utils/alert_utils.dart';
 import 'package:fabiaoqing/utils/net_utils.dart';
-import 'package:fabiaoqing/widgets/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fabiaoqing/utils/validation_utils.dart';
@@ -163,7 +162,7 @@ class _LoginState extends State<LoginPage> {
   }
 
   void login() async {
-    AlertUtils.showLoadingDialog(context);
+    AlertUtils.showLoading(context);
     var res = await NetUtils.getInstance(context).post("user/login", {
       "telephone": _telephone,
       "password": md5.convert(Utf8Encoder().convert(_password))

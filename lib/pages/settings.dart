@@ -109,7 +109,7 @@ class _SettingsState extends State<SettingsPage> {
   }
 
   void _checkHasPsd() async {
-    AlertUtils.showLoadingDialog(context);
+    AlertUtils.showLoading(context);
     var res = await NetUtils.getInstance(context).get(
         "user/has_psd?userId=${CommonUser.getInstance().getUserId()}",
         headers: {"token": CommonUser.getInstance().getToken()});
@@ -117,7 +117,7 @@ class _SettingsState extends State<SettingsPage> {
     if (res != null && res["data"] != null) {
       if (!res["data"]) {
         AlertUtils.showAlert(context, "您还未设置密码",
-            message: "请先设置密码", canCancel: false, onOK: _gotoSetPsd);
+            message: "请先初始化密码", canCancel: false, onOK: _gotoSetPsd);
       } else {
         _gotoPsd();
       }
@@ -126,11 +126,7 @@ class _SettingsState extends State<SettingsPage> {
 
   _gotoSetPsd() async {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => ForgetPsdPage(
-                  title: "设置密码",
-                )));
+        context, MaterialPageRoute(builder: (context) => ForgetPsdPage()));
   }
 
   void _gotoPsd() {

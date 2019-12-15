@@ -164,7 +164,7 @@ class _UpdateTelPageState extends State<UpdateTelPage> {
   }
 
   void _checkNewTel() async {
-    AlertUtils.showLoadingDialog(context);
+    AlertUtils.showLoading(context);
     var res = await NetUtils.getInstance(context)
         .get("user/find_by_tel?tel=$_newTel");
     Navigator.pop(context);
@@ -204,7 +204,7 @@ class _UpdateTelPageState extends State<UpdateTelPage> {
       Toast.show(codeMatch, context, gravity: Toast.CENTER);
       return;
     }
-    AlertUtils.showLoadingDialog(context);
+    AlertUtils.showLoading(context);
     var res = await NetUtils.getInstance(context).post("user/update_tel", {
       "userId": CommonUser.getInstance().getUserId(),
       "oldTel": _oldTel,

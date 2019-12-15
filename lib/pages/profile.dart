@@ -214,7 +214,7 @@ class _ProfileState extends State<ProfilePage>
       "nickname": _newUser.nickname,
       "description": _newUser.description
     });
-    AlertUtils.showLoadingDialog(context);
+    AlertUtils.showLoading(context);
     var res = await NetUtils.getInstance(context).filePost(
         "user/update_profile", formData,
         headers: {"token": CommonUser.getInstance().getToken()});

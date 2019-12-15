@@ -4,7 +4,6 @@ import 'package:fabiaoqing/models/index.dart';
 import 'package:fabiaoqing/utils/alert_utils.dart';
 import 'package:fabiaoqing/utils/net_utils.dart';
 import 'package:fabiaoqing/utils/validation_utils.dart';
-import 'package:fabiaoqing/widgets/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -159,7 +158,7 @@ class _LoginByCodeState<LoginByCodePage> extends State {
   }
 
   void loginByCode() async {
-    AlertUtils.showLoadingDialog(context);
+    AlertUtils.showLoading(context);
     var res = await NetUtils.getInstance(context)
         .post("user/login_by_code", {"telephone": _telephone, "code": _code});
     Navigator.pop(context);

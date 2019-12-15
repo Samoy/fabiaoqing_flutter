@@ -131,7 +131,7 @@ class _UpdatePsdState extends State<UpdatePsdPage> {
   }
 
   void _updatePsd() async {
-    AlertUtils.showLoadingDialog(context);
+    AlertUtils.showLoading(context);
     var res = await NetUtils.getInstance(context).post("user/update_psd", {
       "userId": CommonUser.getInstance().getUserId(),
       "oldPsd": md5.convert(Utf8Encoder().convert(_oldPsd)),
