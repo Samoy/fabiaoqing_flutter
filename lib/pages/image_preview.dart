@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:fabiaoqing/common/api_result_code.dart';
 import 'package:fabiaoqing/common/common_user.dart';
+import 'package:fabiaoqing/common/constant.dart';
 import 'package:fabiaoqing/models/emoticon.dart';
 import 'package:fabiaoqing/utils/net_utils.dart';
 import 'package:toast/toast.dart';
@@ -29,12 +30,12 @@ class ImagePreviewState extends State<ImagePreview> {
   final List<Emoticon> _imageList;
   int _imageHeight = 0;
   PageController _controller;
-  final List<String> _shareChannels = [
-    "保存到手机",
-    "发送给QQ好友",
-    "发送给微信好友",
-    "收藏",
-    "取消"
+  final List<Map<String, String>> _shareChannels = [
+    {"title": "保存到手机", "flag": FLAG_SAVE_PHONE},
+//    {"title": "发送给QQ好友", "flag": FLAG_SHARE_QQ},
+//    {"title": "发送到微信好友", "flag": FLAG_SHARE_WX},
+    {"title": "收藏", "flag": FLAG_SAVE_FAVORITE},
+    {"title": "取消", "flag": FLAG_SAVE_CANCEL}
   ];
 
   ImagePreviewState(this.currentIndex, this._imageList);
@@ -45,23 +46,23 @@ class ImagePreviewState extends State<ImagePreview> {
     _controller = PageController(initialPage: currentIndex);
   }
 
-  _onTapShare(int index, Emoticon emoticon) {
+  _onTapShare(String flag, Emoticon emoticon) {
     Navigator.pop(context);
-    switch (index) {
+    switch (flag) {
       //保存到手机
-      case 0:
+      case FLAG_SAVE_PHONE:
         _saveImageToAlbum(emoticon.url);
         break;
       //分享到QQ
-      case 1:
+      case FLAG_SHARE_QQ:
         _shareToQQ(emoticon.url);
         break;
       //分享到微信
-      case 2:
+      case FLAG_SHARE_WX:
         _shareToWX(emoticon.url);
         break;
       //收藏
-      case 3:
+      case FLAG_SAVE_FAVORITE:
         _collect(emoticon.objectId);
         break;
     }
@@ -155,7 +156,8 @@ class ImagePreviewState extends State<ImagePreview> {
                 context: context,
                 builder: (context) {
                   return Container(
-                      height: 295,
+                      //fixme:由于去掉了分享到第三方的功，因此高度降低了，原高度为295
+                      height: 180,
                       child: ListView.builder(
                         itemBuilder: (context, index) {
                           double dividerHeight = 0.5;
@@ -169,10 +171,11 @@ class ImagePreviewState extends State<ImagePreview> {
                             children: <Widget>[
                               ListTile(
                                 title: Text(
-                                  _shareChannels[index],
+                                  _shareChannels[index]["title"],
                                   textAlign: TextAlign.center,
                                 ),
-                                onTap: () => _onTapShare(index, image),
+                                onTap: () => _onTapShare(
+                                    _shareChannels[index]["flag"], image),
                               ),
                               Container(
                                 height: dividerHeight,

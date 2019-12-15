@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:fabiaoqing/common/common_user.dart';
+import 'package:fabiaoqing/common/constant.dart';
 import 'package:fabiaoqing/models/index.dart';
 import 'package:fabiaoqing/pages/favorite_page.dart';
 import 'package:fabiaoqing/pages/feedback.dart';
@@ -22,12 +23,18 @@ class MinePage extends StatefulWidget {
 class _MeState extends State {
   final _operationList = [
     {
+      "title": "我的收藏",
+      "icon": Icon(Icons.favorite_border),
+      "flag": FLAG_FAVORITE
+    },
+    {
       "title": "清除缓存",
       "icon": Image.asset(
         "images/cache.png",
         width: 22,
         height: 22,
       ),
+      "flag": FLAG_CACHE
     },
     {
       "title": "用户反馈",
@@ -36,6 +43,7 @@ class _MeState extends State {
         width: 22,
         height: 22,
       ),
+      "flag": FLAG_FEEDBACK
     },
     {
       "title": "设置",
@@ -44,6 +52,7 @@ class _MeState extends State {
         width: 22,
         height: 22,
       ),
+      "flag": FLAG_SET
     }
   ];
 
@@ -86,7 +95,11 @@ class _MeState extends State {
                                   width: 80,
                                   height: 80,
                                 )
-                              : Image.asset("images/logo.jpg",width: 80,height: 80,),
+                              : Image.asset(
+                                  "images/logo.jpg",
+                                  width: 80,
+                                  height: 80,
+                                ),
                         ),
                         Container(
                           margin: EdgeInsets.only(left: 12),
@@ -120,7 +133,9 @@ class _MeState extends State {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 20),
+            height: 0,
+            //todo:我的收藏暂时先放在纵向列表
+            //margin: EdgeInsets.only(top: 16),
             padding: EdgeInsets.all(20),
             child: Row(
               children: <Widget>[
@@ -195,12 +210,13 @@ class _MeState extends State {
           Expanded(
             flex: 1,
             child: Container(
-              margin: EdgeInsets.only(top: 19),
+              margin: EdgeInsets.only(top: 16),
               child: ListView.builder(
                   itemBuilder: (context, index) {
                     var operation = _operationList[index];
+                    var flag = operation["flag"];
                     Widget rightWidget = Icon(Icons.chevron_right);
-                    if (index == 0) {
+                    if (flag == FLAG_CACHE) {
                       rightWidget = Text(_cacheSize);
                     }
                     return InkWell(
@@ -227,7 +243,7 @@ class _MeState extends State {
                         ),
                         color: Colors.white,
                       ),
-                      onTap: () => _onTapRow(operation, index),
+                      onTap: () => _onTapRow(operation),
                     );
                   },
                   itemCount: _operationList.length),
@@ -273,19 +289,22 @@ class _MeState extends State {
 
   void _onTapHistory() {}
 
-  void _onTapRow(Map<String, Object> operation, int index) async {
-    switch (index) {
-      case 0:
+  void _onTapRow(Map<String, Object> operation) async {
+    switch (operation["flag"]) {
+      case FLAG_FAVORITE:
+        _onTapMyFavorite();
+        break;
+      case FLAG_CACHE:
         CacheUtils.clearCache(context);
         setState(() {
           _cacheSize = "0.00B";
         });
         break;
-      case 1:
+      case FLAG_FEEDBACK:
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => FeedbackPage()));
         break;
-      case 2:
+      case FLAG_SET:
         Navigator.push(
             context,
             MaterialPageRoute(
