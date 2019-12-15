@@ -106,6 +106,7 @@ class ImagePreviewState extends State<ImagePreview> {
     String suffix = (url as String).split(".").last;
     String path =
         await ImageSave.saveImage(suffix, Uint8List.fromList(res.data));
+    print("保存路径:$path");
     Toast.show(
         Platform.isAndroid && path == null ? "(╥╯^╰╥)，保存失败了" : "ヾ(^▽^ヾ)，保存成功啦",
         context,

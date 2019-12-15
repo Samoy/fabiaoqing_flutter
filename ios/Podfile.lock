@@ -28,9 +28,9 @@ PODS:
     - Flutter
   - permission_handler (3.3.0):
     - Flutter
-  - SDWebImage (5.2.5):
-    - SDWebImage/Core (= 5.2.5)
-  - SDWebImage/Core (5.2.5)
+  - SDWebImage (5.4.0):
+    - SDWebImage/Core (= 5.4.0)
+  - SDWebImage/Core (5.4.0)
   - shared_preferences (0.0.1):
     - Flutter
   - sqflite (0.0.1):
@@ -49,7 +49,7 @@ DEPENDENCIES:
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
 
 SPEC REPOS:
-  https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git:
+  trunk:
     - AFNetworking
     - FMDB
     - SDWebImage
@@ -79,11 +79,11 @@ SPEC CHECKSUMS:
   image_save: 66ab41fa2c60bc9569e55563ea287cced7b79fd1
   path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
   permission_handler: 67637977b227d62d46bfbf524f335f8568de5a73
-  SDWebImage: 4eabf2fa6695c95c47724214417a9c036c965e4a
+  SDWebImage: 5bf6aec6481ae2a062bdc59f9d6c1d1e552090e0
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
   ZLPhotoBrowser: 7e88434918366af98f8ebbaf5b94206985812ed6
 
-PODFILE CHECKSUM: 8354626d1afab416611256157f045502b02d2e0c
+PODFILE CHECKSUM: 3389836f37640698630b8f0670315d626d5f1469
 
 COCOAPODS: 1.8.4

@@ -165,7 +165,7 @@ class _LoginByCodeState<LoginByCodePage> extends State {
     Navigator.pop(context);
     if (res != null && res["data"] != null) {
       LoginResult loginResult = LoginResult.fromJson(res["data"]);
-      CommonUser.getInstance().setLoginResult(loginResult);
+      CommonUser.getInstance().setLoginResult(loginResult, _telephone);
       Navigator.pop(context, true);
     }
   }
@@ -173,6 +173,9 @@ class _LoginByCodeState<LoginByCodePage> extends State {
   @override
   void dispose() {
     super.dispose();
-    _timer.cancel();
+    if (_timer != null) {
+      _timer.cancel();
+      _timer = null;
+    }
   }
 }

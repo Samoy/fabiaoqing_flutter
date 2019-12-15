@@ -89,7 +89,9 @@ class _SettingsState extends State<SettingsPage> {
 
   void _gotoTel() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => UpdateTelPage()));
+        context,
+        MaterialPageRoute(
+            builder: (context) => UpdateTelPage(needLogout: _logout)));
   }
 
   void _onTapLogout() {
@@ -103,7 +105,7 @@ class _SettingsState extends State<SettingsPage> {
       "token": CommonUser.getInstance().getToken()
     });
     if (res != null && res["code"] == REQUEST_SUCCESS) {
-      Toast.show("o(TωT)o，退出登录成功", context, gravity: Toast.CENTER);
+      Toast.show("o(TωT)o，您已退出登录", context, gravity: Toast.CENTER);
       setState(() {
         _isLogout = true;
       });

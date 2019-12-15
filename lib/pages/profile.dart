@@ -65,12 +65,7 @@ class _ProfileState extends State<ProfilePage>
   @override
   Widget build(BuildContext context) {
     final profileList = [
-      {
-        "title": "头像",
-        "value": _newUser.avatar.isNotEmpty
-            ? _newUser.avatar
-            : "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1624240531,2195794812&fm=26&gp=0.jpg"
-      },
+      {"title": "头像", "value": _newUser.avatar},
       {"title": "昵称", "value": _newUser.nickname},
       {"title": "性别", "value": _newUser.sex ? "男" : "女"},
       {"title": "介绍", "value": _newUser.description}
@@ -101,15 +96,21 @@ class _ProfileState extends State<ProfilePage>
                     Widget valueWidget = Text(item["value"]);
                     if (index == 0) {
                       valueWidget = ClipOval(
-                        child: isNetworkPath(item["value"])
-                            ? CacheUtils.cacheNetworkImage(
-                                context, item["value"],
-                                width: 28, height: 28)
-                            : Image(
-                                image: FileImage(File(item["value"])),
+                        child: item["value"].isEmpty
+                            ? Image.asset(
+                                "images/default_avatar.png",
                                 width: 28,
                                 height: 28,
-                              ),
+                              )
+                            : isNetworkPath(item["value"])
+                                ? CacheUtils.cacheNetworkImage(
+                                    context, item["value"],
+                                    width: 28, height: 28)
+                                : Image(
+                                    image: FileImage(File(item["value"])),
+                                    width: 28,
+                                    height: 28,
+                                  ),
                       );
                     }
                     return InkWell(

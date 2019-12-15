@@ -19,8 +19,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginState extends State<LoginPage> {
-  var telephone = "";
-  var password = "";
+  String _telephone = "";
+  String _password = "";
 
   @override
   void initState() {
@@ -58,7 +58,7 @@ class _LoginState extends State<LoginPage> {
                     cursorColor: Colors.red,
                     style: TextStyle(fontSize: 14),
                     keyboardType: TextInputType.number,
-                    onChanged: (text) => setState(() => telephone = text),
+                    onChanged: (text) => setState(() => _telephone = text),
                     decoration: InputDecoration(
                         hintText: "请输入手机号码",
                         hintStyle:
@@ -76,7 +76,7 @@ class _LoginState extends State<LoginPage> {
                     style: TextStyle(fontSize: 14),
                     obscureText: true,
                     cursorColor: Colors.red,
-                    onChanged: (text) => setState(() => password = text),
+                    onChanged: (text) => setState(() => _password = text),
                     decoration: InputDecoration(
                         hintText: "请输入密码",
                         hintStyle:
@@ -136,9 +136,9 @@ class _LoginState extends State<LoginPage> {
 
   void _onTapLogin() {
     String telMatch =
-        validationTextField("手机号码", telephone, r"^1[3456789](\d){9}$");
+        validationTextField("手机号码", _telephone, r"^1[3456789](\d){9}$");
     String psdMath = validationTextField(
-        "密码", password, r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
+        "密码", _password, r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
     if (telMatch != null) {
       Toast.show(telMatch, context, gravity: Toast.CENTER);
       return;
@@ -166,13 +166,13 @@ class _LoginState extends State<LoginPage> {
   void login() async {
     showDialog(context: context, builder: (context) => new LoadingDialog());
     var res = await NetUtils.getInstance(context).post("user/login", {
-      "telephone": telephone,
-      "password": md5.convert(Utf8Encoder().convert(password))
+      "telephone": _telephone,
+      "password": md5.convert(Utf8Encoder().convert(_password))
     });
     Navigator.pop(context);
     if (res["data"] != null) {
       LoginResult loginResult = LoginResult.fromJson(res["data"]);
-      CommonUser.getInstance().setLoginResult(loginResult);
+      CommonUser.getInstance().setLoginResult(loginResult, _telephone);
       Navigator.pop(context, true);
     }
   }

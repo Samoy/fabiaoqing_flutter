@@ -78,15 +78,15 @@ class _MeState extends State {
                     Row(
                       children: <Widget>[
                         ClipOval(
-                          child: CacheUtils.cacheNetworkImage(
-                            context,
-                            _currentUser != null &&
-                                    _currentUser.avatar.isNotEmpty
-                                ? _currentUser.avatar
-                                : "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1624240531,2195794812&fm=26&gp=0.jpg",
-                            width: 80.toDouble(),
-                            height: 80.toDouble(),
-                          ),
+                          child: _currentUser != null &&
+                                  _currentUser.avatar.isNotEmpty
+                              ? CacheUtils.cacheNetworkImage(
+                                  context,
+                                  _currentUser.avatar,
+                                  width: 80,
+                                  height: 80,
+                                )
+                              : Image.asset("images/default_avatar.png",width: 80,height: 80,),
                         ),
                         Container(
                           margin: EdgeInsets.only(left: 12),
