@@ -1,5 +1,6 @@
 import 'package:fabiaoqing/common/api_result_code.dart';
 import 'package:fabiaoqing/common/common_user.dart';
+import 'package:fabiaoqing/pages/about.dart';
 import 'package:fabiaoqing/pages/update_psd.dart';
 import 'package:fabiaoqing/pages/update_tel.dart';
 import 'package:fabiaoqing/utils/alert_utils.dart';
@@ -34,6 +35,7 @@ class _SettingsState extends State<SettingsPage> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
+        elevation: 0,
         title: Text("设置"),
       ),
       body: Container(
@@ -88,6 +90,9 @@ class _SettingsState extends State<SettingsPage> {
           _checkHasPsd();
         }
         break;
+      case 3:
+        _gotoAbout();
+        break;
       default:
         break;
     }
@@ -136,6 +141,11 @@ class _SettingsState extends State<SettingsPage> {
             builder: (context) => UpdatePsdPage(
                   needLogout: _logout,
                 )));
+  }
+
+  void _gotoAbout() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => AboutPage()));
   }
 
   void _onTapLogout() {

@@ -1,5 +1,5 @@
 name: fabiaoqing
-description: 斗图神器，无数的表情包供你使用，没有你搜不到，只有你想不到
+description: 这是一款斗图神器，无数的表情包供你选择，没有你搜不到，只有你想不到。
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -28,8 +28,9 @@ dependencies:
   permission_handler: ^3.0.0
   shared_preferences: ^0.5.4+3
   path_provider: ^1.4.2
-  cached_network_image: ^1.1.3
+  cached_network_image: ^2.0.0-rc
   image_pickers: ^1.0.6
+  url_launcher: ^5.4.1
 
 dev_dependencies:
   flutter_test:
@@ -62,6 +63,7 @@ flutter:
     - images/feedback.png
     - images/settings.png
     - images/default_avatar.png
+    - images/logo.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

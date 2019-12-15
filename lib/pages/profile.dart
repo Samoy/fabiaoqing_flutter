@@ -7,10 +7,9 @@ import 'package:fabiaoqing/utils/alert_utils.dart';
 import 'package:fabiaoqing/utils/cache_utils.dart';
 import 'package:fabiaoqing/utils/file_utils.dart';
 import 'package:fabiaoqing/utils/net_utils.dart';
-import 'package:fabiaoqing/widgets/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:image_pickers/image_pickers.dart';
-import 'package:image_pickers/CorpConfig.dart';
+import 'package:image_pickers/CropConfig.dart';
 import 'package:image_pickers/Media.dart';
 import 'package:image_pickers/UIConfig.dart';
 import 'package:toast/toast.dart';
@@ -98,7 +97,7 @@ class _ProfileState extends State<ProfilePage>
                       valueWidget = ClipOval(
                         child: item["value"].isEmpty
                             ? Image.asset(
-                                "images/default_avatar.png",
+                                "images/logo.jpg",
                                 width: 28,
                                 height: 28,
                               )
@@ -200,7 +199,7 @@ class _ProfileState extends State<ProfilePage>
         showCamera: true,
         compressSize: 500,
         uiConfig: UIConfig(uiThemeColor: Colors.red),
-        corpConfig: CorpConfig(enableCrop: true, width: 2, height: 1));
+        cropConfig: CropConfig(enableCrop: true, width: 2, height: 1));
     setState(() {
       _newUser.avatar = _listImagePaths[0].path;
     });

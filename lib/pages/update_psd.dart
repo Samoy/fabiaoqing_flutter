@@ -28,12 +28,6 @@ class _UpdatePsdState extends State<UpdatePsdPage> {
   _UpdatePsdState(this._needLogout);
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     var inputBorder = OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(0)),
@@ -42,6 +36,7 @@ class _UpdatePsdState extends State<UpdatePsdPage> {
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text("修改密码"),
+        elevation: 0,
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 16),

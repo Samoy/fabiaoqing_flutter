@@ -86,7 +86,7 @@ class _MeState extends State {
                                   width: 80,
                                   height: 80,
                                 )
-                              : Image.asset("images/default_avatar.png",width: 80,height: 80,),
+                              : Image.asset("images/logo.jpg",width: 80,height: 80,),
                         ),
                         Container(
                           margin: EdgeInsets.only(left: 12),
