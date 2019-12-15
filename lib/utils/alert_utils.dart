@@ -1,3 +1,4 @@
+import 'package:fabiaoqing/widgets/loading_dialog.dart';
 import 'package:flutter/material.dart';
 
 class AlertUtils {
@@ -14,8 +15,8 @@ class AlertUtils {
             FlatButton(
               child: Text('确定'),
               onPressed: () {
-                onOK();
                 Navigator.pop(context);
+                onOK();
               },
             ),
             canCancel
@@ -113,5 +114,12 @@ class AlertUtils {
             ),
           );
         });
+  }
+
+  static Future showLoadingDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) => LoadingDialog(),
+        barrierDismissible: false);
   }
 }

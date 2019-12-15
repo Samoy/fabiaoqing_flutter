@@ -1,6 +1,7 @@
 import 'package:fabiaoqing/common/api_result_code.dart';
 import 'package:fabiaoqing/common/common_user.dart';
 import 'package:fabiaoqing/models/index.dart';
+import 'package:fabiaoqing/utils/alert_utils.dart';
 import 'package:fabiaoqing/utils/net_utils.dart';
 import 'package:fabiaoqing/utils/validation_utils.dart';
 import 'package:fabiaoqing/widgets/loading_dialog.dart';
@@ -84,7 +85,7 @@ class _LoginByCodeState<LoginByCodePage> extends State {
                           ? null
                           : () {
                               String result = validationTextField(
-                                  "手机号码", _telephone, r"^1[3456789](\d){9}$");
+                                  "手机号码", _telephone, PATTERN_PHONE);
                               if (result != null) {
                                 Toast.show(result, context,
                                     gravity: Toast.CENTER);
@@ -143,15 +144,14 @@ class _LoginByCodeState<LoginByCodePage> extends State {
   }
 
   void _onTapLoginByCode() {
-    String telMatch =
-        validationTextField("手机号码", _telephone, r"^1[3456789](\d){9}$");
-    String codeMath = validationTextField("验证码", _code, r"^(\d){6}$");
+    String telMatch = validationTextField("手机号码", _telephone, PATTERN_PHONE);
+    String codeMatch = validationTextField("验证码", _code, PATTERN_CODE);
     if (telMatch != null) {
       Toast.show(telMatch, context, gravity: Toast.CENTER);
       return;
     }
-    if (codeMath != null) {
-      Toast.show(codeMath, context, gravity: Toast.CENTER);
+    if (codeMatch != null) {
+      Toast.show(codeMatch, context, gravity: Toast.CENTER);
       return;
     }
     //验证码登录
@@ -159,7 +159,7 @@ class _LoginByCodeState<LoginByCodePage> extends State {
   }
 
   void loginByCode() async {
-    showDialog(context: context, builder: (context) => new LoadingDialog());
+    AlertUtils.showLoadingDialog(context);
     var res = await NetUtils.getInstance(context)
         .post("user/login_by_code", {"telephone": _telephone, "code": _code});
     Navigator.pop(context);

@@ -4,6 +4,7 @@ import 'package:fabiaoqing/common/api_result_code.dart';
 import 'package:fabiaoqing/common/common_user.dart';
 import 'package:fabiaoqing/utils/alert_utils.dart';
 import 'package:fabiaoqing/utils/net_utils.dart';
+import 'package:fabiaoqing/utils/validation_utils.dart';
 import 'package:fabiaoqing/widgets/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
@@ -163,7 +164,7 @@ class _UpdateTelPageState extends State<UpdateTelPage> {
   }
 
   void _checkNewTel() async {
-    showDialog(context: context, builder: (context) => LoadingDialog());
+    AlertUtils.showLoadingDialog(context);
     var res = await NetUtils.getInstance(context)
         .get("user/find_by_tel?tel=$_newTel");
     Navigator.pop(context);
@@ -196,8 +197,14 @@ class _UpdateTelPageState extends State<UpdateTelPage> {
   void _onSubmit() async {
     if (_code.isEmpty) {
       Toast.show("(✺ω✺)，验证码不能为空哦", context, gravity: Toast.CENTER);
+      return;
     }
-    showDialog(context: context, builder: (context) => LoadingDialog());
+    String codeMatch = validationTextField("验证码", _code, PATTERN_CODE);
+    if (codeMatch != null) {
+      Toast.show(codeMatch, context, gravity: Toast.CENTER);
+      return;
+    }
+    AlertUtils.showLoadingDialog(context);
     var res = await NetUtils.getInstance(context).post("user/update_tel", {
       "userId": CommonUser.getInstance().getUserId(),
       "oldTel": _oldTel,
@@ -208,7 +215,7 @@ class _UpdateTelPageState extends State<UpdateTelPage> {
     });
     Navigator.pop(context);
     if (res != null && res["code"] == REQUEST_SUCCESS) {
-      AlertUtils.showAlert(context, "手机号码修改成功", message: "已自动退出原账号", onOK: () {
+      AlertUtils.showAlert(context, "手机号码修改成功", message: "已退出账号，以后您需要用新手机号进行登录", onOK: () {
         this._needLogout();
         Navigator.pop(context);
       }, canCancel: false);

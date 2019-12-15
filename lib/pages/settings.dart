@@ -1,11 +1,14 @@
 import 'package:fabiaoqing/common/api_result_code.dart';
 import 'package:fabiaoqing/common/common_user.dart';
+import 'package:fabiaoqing/pages/update_psd.dart';
 import 'package:fabiaoqing/pages/update_tel.dart';
 import 'package:fabiaoqing/utils/alert_utils.dart';
 import 'package:fabiaoqing/utils/net_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
+
+import 'forget_psd.dart';
 
 class SettingsPage extends StatefulWidget {
   final Function onLogoutSuccess;
@@ -76,15 +79,26 @@ class _SettingsState extends State<SettingsPage> {
   _onTapRow(int index) async {
     switch (index) {
       case 0:
-        if (!CommonUser.getInstance().isLogin()) {
-          Toast.show("╮(￣▽￣)╭，还未登录哦", context, gravity: Toast.CENTER);
-          return;
+        if (_checkLogin()) {
+          _gotoTel();
         }
-        _gotoTel();
+        break;
+      case 1:
+        if (_checkLogin()) {
+          _checkHasPsd();
+        }
         break;
       default:
         break;
     }
+  }
+
+  bool _checkLogin() {
+    if (!CommonUser.getInstance().isLogin()) {
+      Toast.show("╮(￣▽￣)╭，还未登录哦", context, gravity: Toast.CENTER);
+      return false;
+    }
+    return true;
   }
 
   void _gotoTel() {
@@ -92,6 +106,40 @@ class _SettingsState extends State<SettingsPage> {
         context,
         MaterialPageRoute(
             builder: (context) => UpdateTelPage(needLogout: _logout)));
+  }
+
+  void _checkHasPsd() async {
+    AlertUtils.showLoadingDialog(context);
+    var res = await NetUtils.getInstance(context).get(
+        "user/has_psd?userId=${CommonUser.getInstance().getUserId()}",
+        headers: {"token": CommonUser.getInstance().getToken()});
+    Navigator.pop(context);
+    if (res != null && res["data"] != null) {
+      if (!res["data"]) {
+        AlertUtils.showAlert(context, "您还未设置密码",
+            message: "请先设置密码", canCancel: false, onOK: _gotoSetPsd);
+      } else {
+        _gotoPsd();
+      }
+    }
+  }
+
+  _gotoSetPsd() async {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ForgetPsdPage(
+                  title: "设置密码",
+                )));
+  }
+
+  void _gotoPsd() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => UpdatePsdPage(
+                  needLogout: _logout,
+                )));
   }
 
   void _onTapLogout() {

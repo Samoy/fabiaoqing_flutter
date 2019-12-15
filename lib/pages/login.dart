@@ -2,6 +2,7 @@ import 'package:fabiaoqing/common/common_user.dart';
 import 'package:fabiaoqing/models/index.dart';
 import 'package:fabiaoqing/pages/login_by_code.dart';
 import 'package:fabiaoqing/pages/forget_psd.dart';
+import 'package:fabiaoqing/utils/alert_utils.dart';
 import 'package:fabiaoqing/utils/net_utils.dart';
 import 'package:fabiaoqing/widgets/loading_dialog.dart';
 import 'package:flutter/material.dart';
@@ -135,10 +136,8 @@ class _LoginState extends State<LoginPage> {
   }
 
   void _onTapLogin() {
-    String telMatch =
-        validationTextField("手机号码", _telephone, r"^1[3456789](\d){9}$");
-    String psdMath = validationTextField(
-        "密码", _password, r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
+    String telMatch = validationTextField("手机号码", _telephone, PATTERN_PHONE);
+    String psdMath = validationTextField("密码", _password, PATTERN_PASSWORD);
     if (telMatch != null) {
       Toast.show(telMatch, context, gravity: Toast.CENTER);
       return;
@@ -164,7 +163,7 @@ class _LoginState extends State<LoginPage> {
   }
 
   void login() async {
-    showDialog(context: context, builder: (context) => new LoadingDialog());
+    AlertUtils.showLoadingDialog(context);
     var res = await NetUtils.getInstance(context).post("user/login", {
       "telephone": _telephone,
       "password": md5.convert(Utf8Encoder().convert(_password))

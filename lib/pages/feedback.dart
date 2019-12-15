@@ -98,7 +98,7 @@ class _FeedbackState extends State<FeedbackPage> {
       Toast.show("请先填写内容哦", context, gravity: Toast.CENTER);
       return;
     }
-    showDialog(context: context, builder: (context) => LoadingDialog());
+    AlertUtils.showLoadingDialog(context);
     await NetUtils.getInstance(context)
         .post("feedback/submit", {"content": _feedback});
     Navigator.pop(context);
