@@ -96,8 +96,9 @@ class _LoginByCodeState<LoginByCodePage> extends State {
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: MaterialButton(
+              margin:EdgeInsets.all(16),
+              width: double.infinity,
+              child: RaisedButton(
                 onPressed: _onTapLoginByCode,
                 child: Text(
                   "登录",
@@ -105,10 +106,6 @@ class _LoginByCodeState<LoginByCodePage> extends State {
                 ),
                 disabledColor: Colors.grey[400],
                 color: Colors.red,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(24))),
-                minWidth: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: 12),
                 elevation: 0,
                 highlightElevation: 0,
               ),

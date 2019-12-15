@@ -151,7 +151,7 @@ class _LoginState extends State<LoginPage> {
   void _onTapCodeLogin() async {
     bool loginSuccess = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => LoginByCodePage()));
-    if (loginSuccess) {
+    if (loginSuccess != null && loginSuccess) {
       Navigator.pop(context, true);
     }
   }

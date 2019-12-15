@@ -5,7 +5,6 @@ import 'package:fabiaoqing/common/common_user.dart';
 import 'package:fabiaoqing/utils/alert_utils.dart';
 import 'package:fabiaoqing/utils/net_utils.dart';
 import 'package:fabiaoqing/utils/validation_utils.dart';
-import 'package:fabiaoqing/widgets/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
@@ -34,6 +33,9 @@ class _UpdateTelPageState extends State<UpdateTelPage> {
 
   @override
   Widget build(BuildContext context) {
+    var inputBorder = OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(0)),
+        borderSide: BorderSide(width: 1, color: Colors.grey[200]));
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
@@ -41,51 +43,90 @@ class _UpdateTelPageState extends State<UpdateTelPage> {
         elevation: 0,
       ),
       body: Container(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.symmetric(vertical: 16),
         child: Column(
           children: <Widget>[
             TextField(
               enabled: !_showCodeWidget,
-              decoration: InputDecoration(labelText: "请输入原手机号码："),
               onChanged: (text) => setState(() => _oldTel = text),
+              decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(16),
+                  prefixIcon: Icon(
+                    Icons.phone_android,
+                    color: Colors.grey,
+                  ),
+                  hintText: "请输入原手机号码",
+                  enabledBorder: inputBorder,
+                  focusedBorder: inputBorder,
+                  filled: true,
+                  fillColor: Colors.white),
             ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 16),
-              child: TextField(
-                enabled: !_showCodeWidget,
-                decoration: InputDecoration(labelText: "请输入新手机号码："),
-                onChanged: (text) => setState(() => _newTel = text),
-              ),
+            TextField(
+              enabled: !_showCodeWidget,
+              onChanged: (text) => setState(() => _newTel = text),
+              decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(16),
+                  prefixIcon: Icon(
+                    Icons.phone_iphone,
+                    color: Colors.grey,
+                  ),
+                  hintText: "请输入新手机号码",
+                  enabledBorder: inputBorder,
+                  focusedBorder: inputBorder,
+                  filled: true,
+                  fillColor: Colors.white),
             ),
             Container(
               width: double.infinity,
               child: _showCodeWidget
                   ? Column(
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: TextField(
-                                  keyboardType: TextInputType.number,
-                                  onChanged: (value) =>
-                                      setState(() => _code = value),
+                        Container(
+                          color: Colors.white,
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 1,
+                                child: TextField(
+                                  onChanged: (text) =>
+                                      setState(() => _code = text),
                                   decoration: InputDecoration(
-                                    hintText: "请输入验证码",
-                                  )),
-                            ),
-                            FlatButton(
+                                      contentPadding: EdgeInsets.all(16),
+                                      prefixIcon: Icon(
+                                        Icons.verified_user,
+                                        color: Colors.grey,
+                                      ),
+                                      hintText: "请输入验证码",
+                                      enabledBorder: inputBorder,
+                                      focusedBorder: inputBorder,
+                                      filled: true,
+                                      fillColor: Colors.white),
+                                ),
+                              ),
+                              FlatButton(
                                 child: Text(_countdownTime > 0
                                     ? "${_countdownTime}s"
                                     : "重新发送"),
-                                textColor: Colors.deepOrangeAccent,
-                                disabledTextColor: Colors.grey,
-                                onPressed:
-                                    _countdownTime > 0 ? null : _onTapSendCode)
-                          ],
+                                textColor: Colors.red,
+                                onPressed: _countdownTime > 0
+                                    ? null
+                                    : () {
+                                        String result = validationTextField(
+                                            "手机号码", _newTel, PATTERN_PHONE);
+                                        if (result != null) {
+                                          Toast.show(result, context,
+                                              gravity: Toast.CENTER);
+                                          return null;
+                                        }
+                                        return _onTapSendCode();
+                                      },
+                              )
+                            ],
+                          ),
                         ),
                         Container(
                           width: double.infinity,
-                          margin: EdgeInsets.symmetric(vertical: 16),
+                          margin: EdgeInsets.all(16),
                           child: RaisedButton(
                             child: Text("提交"),
                             color: Colors.red,
@@ -96,6 +137,7 @@ class _UpdateTelPageState extends State<UpdateTelPage> {
                           ),
                         ),
                         Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
                           child: Text(
                             "修改手机号码后，您需要通过新手机号码进行登录，且会自动退出原账号",
                             style: TextStyle(color: Colors.grey, fontSize: 14),
@@ -103,13 +145,16 @@ class _UpdateTelPageState extends State<UpdateTelPage> {
                         )
                       ],
                     )
-                  : RaisedButton(
-                      child: Text("下一步"),
-                      color: Colors.red,
-                      textColor: Colors.white,
-                      highlightElevation: 0,
-                      elevation: 0,
-                      onPressed: _onTapNext,
+                  : Container(
+                      margin: EdgeInsets.all(16),
+                      child: RaisedButton(
+                        child: Text("下一步"),
+                        color: Colors.red,
+                        textColor: Colors.white,
+                        highlightElevation: 0,
+                        elevation: 0,
+                        onPressed: _onTapNext,
+                      ),
                     ),
             )
           ],
@@ -169,7 +214,8 @@ class _UpdateTelPageState extends State<UpdateTelPage> {
         .get("user/find_by_tel?tel=$_newTel");
     Navigator.pop(context);
     if (res != null && res["code"] == REQUEST_SUCCESS) {
-      AlertUtils.showAlert(context, "提示", message: "请填写向您新手机发送的验证码", onOK: () {
+      AlertUtils.showAlert(context, "提示", message: "点击\"确定\"填写向您新手机发送的验证码",
+          onOK: () {
         _onTapSendCode();
         setState(() {
           _showCodeWidget = true;
@@ -183,7 +229,7 @@ class _UpdateTelPageState extends State<UpdateTelPage> {
       _countdownTime = 60;
     });
     startCountdownTimer();
-    _sendCode();
+    //_sendCode();
   }
 
   void _sendCode() async {
@@ -215,7 +261,8 @@ class _UpdateTelPageState extends State<UpdateTelPage> {
     });
     Navigator.pop(context);
     if (res != null && res["code"] == REQUEST_SUCCESS) {
-      AlertUtils.showAlert(context, "手机号码修改成功", message: "已退出账号，以后您需要用新手机号进行登录", onOK: () {
+      AlertUtils.showAlert(context, "手机号码修改成功", message: "已退出账号，以后您需要用新手机号进行登录",
+          onOK: () {
         this._needLogout();
         Navigator.pop(context);
       }, canCancel: false);
