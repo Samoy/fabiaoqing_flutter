@@ -21,6 +21,15 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+/**
+ * 以下属性需要自行添加进local.properties文件中,
+ * 更多信息请参阅[https://flutterchina.club/android-release/#%E5%88%9B%E5%BB%BA-keystore]
+ */
+def storeFileValue = localProperties.getProperty('store.path')
+def storePasswordValue = localProperties.getProperty('store.password')
+def keyAliasValue = localProperties.getProperty('key.alias')
+def keyPasswordValue = localProperties.getProperty('key.password')
+
 apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
@@ -32,7 +41,6 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.samoy.fabiaoqing"
         minSdkVersion 17
         targetSdkVersion 28
@@ -41,11 +49,18 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            keyAlias keyAliasValue
+            keyPassword keyPasswordValue
+            storeFile file(storeFileValue)
+            storePassword storePasswordValue
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
     }
 }
