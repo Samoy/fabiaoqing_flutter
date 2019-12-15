@@ -7,6 +7,7 @@ import 'package:fabiaoqing/utils/alert_utils.dart';
 import 'package:fabiaoqing/utils/net_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 import 'package:toast/toast.dart';
 
 import 'forget_psd.dart';
@@ -29,6 +30,14 @@ class _SettingsState extends State<SettingsPage> {
 
   _SettingsState(this._onLogoutSuccess);
 
+  String _version = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _getAppVersion();
+  }
+
   @override
   Widget build(BuildContext context) {
     const list = ["修改手机号码", "修改密码", "版本更新", "关于"];
@@ -50,7 +59,9 @@ class _SettingsState extends State<SettingsPage> {
                       return Container(
                         child: ListTile(
                           title: Text(item),
-                          trailing: Icon(Icons.chevron_right),
+                          trailing: list.indexOf(item) != 2
+                              ? Icon(Icons.chevron_right)
+                              : Text(_version),
                           onTap: () => _onTapRow(list.indexOf(item)),
                         ),
                         color: Colors.white,
@@ -78,6 +89,13 @@ class _SettingsState extends State<SettingsPage> {
     );
   }
 
+  _getAppVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      _version = packageInfo.version;
+    });
+  }
+
   _onTapRow(int index) async {
     switch (index) {
       case 0:
@@ -89,6 +107,9 @@ class _SettingsState extends State<SettingsPage> {
         if (_checkLogin()) {
           _checkHasPsd();
         }
+        break;
+      case 2:
+        _checkVersion();
         break;
       case 3:
         _gotoAbout();
@@ -141,6 +162,11 @@ class _SettingsState extends State<SettingsPage> {
             builder: (context) => UpdatePsdPage(
                   needLogout: _logout,
                 )));
+  }
+
+  //todo: 检查更新暂未实现
+  void _checkVersion() {
+    Toast.show("ヾ(^▽^ヾ)，已经是最新版啦！", context, gravity: Toast.CENTER);
   }
 
   void _gotoAbout() {
