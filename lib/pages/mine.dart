@@ -72,7 +72,7 @@ class _MeState extends State {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        title: Text("我的"),
+        title: Text("我的", style: TextStyle(fontFamily: "KuaiLe")),
         elevation: 0,
       ),
       body: Column(

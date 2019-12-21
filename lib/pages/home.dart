@@ -40,7 +40,7 @@ class _HomeState extends State<HomePage> with TickerProviderStateMixin {
     //TODO:实现APPBar吸顶效果
     return new Scaffold(
       appBar: AppBar(
-        title: Text("来发表情吧"),
+        title: Text("来发表情吧", style: TextStyle(fontFamily: "KuaiLe")),
         elevation: 0,
         bottom: TabBar(
           tabs: _categories.map((Category category) {

@@ -45,13 +45,45 @@ class TagState extends State<TagPage> {
     return Scaffold(
         backgroundColor: Colors.grey[200],
         appBar: AppBar(
-          title: Text("标签墙"),
+          title: Text("标签墙", style: TextStyle(fontFamily: "KuaiLe")),
           elevation: 0,
         ),
         body: Padding(
           padding: EdgeInsets.all(8),
           child: Column(
             children: <Widget>[
+              Container(
+                height: 44,
+                margin: EdgeInsets.all(16),
+                child: TextField(
+                  textInputAction: TextInputAction.search,
+                  onSubmitted: (text) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => new EmoticonList(
+                          keyword: text,
+                        ),
+                      ),
+                    );
+                  },
+                  decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(8),
+                      hintText: "请输入想搜索的标签",
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Colors.grey,
+                      ),
+                      border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.grey[500], width: 0.5),
+                          borderRadius: BorderRadius.all(Radius.circular(22))),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.grey[500], width: 0.5),
+                          borderRadius: BorderRadius.all(Radius.circular(22)))),
+                ),
+              ),
               Center(
                 heightFactor: 1,
                 widthFactor: 1,

@@ -58,7 +58,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.insert_emoticon),
-            title: Text('表情包'),
+            title: Text(
+              '表情包',
+              style: TextStyle(fontFamily: "KuaiLe"),
+            ),
           ),
           BottomNavigationBarItem(
             icon: Image.asset(
@@ -67,9 +70,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               height: 20,
               color: _selectedIndex == 1 ? Colors.blue : Colors.grey[700],
             ),
-            title: Text('标签墙'),
+            title: Text('标签墙', style: TextStyle(fontFamily: "KuaiLe")),
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), title: Text('我的'))
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              title: Text('我的', style: TextStyle(fontFamily: "KuaiLe")))
         ],
         currentIndex: _selectedIndex,
         selectedIconTheme: IconThemeData(color: Colors.blue),
