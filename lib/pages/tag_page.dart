@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:fabiaoqing/pages/emoticon_list.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 import '../utils/net_utils.dart';
 import '../models/tag.dart';
 
@@ -58,6 +59,10 @@ class TagState extends State<TagPage> {
                 child: TextField(
                   textInputAction: TextInputAction.search,
                   onSubmitted: (text) {
+                    if (text.isEmpty) {
+                      Toast.show("您还没有输入搜索内容", context, gravity: Toast.CENTER);
+                      return;
+                    }
                     Navigator.push(
                       context,
                       MaterialPageRoute(
