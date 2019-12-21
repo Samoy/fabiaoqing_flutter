@@ -63,7 +63,7 @@ flutter:
     - images/cache.png
     - images/feedback.png
     - images/settings.png
-    - images/default_avatar.png
+    - images/default_avatar.gif
     - images/logo.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see

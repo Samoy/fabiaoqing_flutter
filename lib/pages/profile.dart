@@ -14,7 +14,6 @@ import 'package:image_pickers/Media.dart';
 import 'package:image_pickers/UIConfig.dart';
 import 'package:toast/toast.dart';
 
-//todo:头像修改暂未完成
 class ProfilePage extends StatefulWidget {
   final User _user;
   final Function onChangeProfile;
@@ -48,16 +47,6 @@ class _ProfileState extends State<ProfilePage>
     super.initState();
     if (_user != null) {
       _newUser = User.fromJson(_user.toJson());
-    }
-  }
-
-  @override
-  void didUpdateWidget(ProfilePage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (!isSameUser(_newUser, _user)) {
-      setState(() {
-        _isEdit = true;
-      });
     }
   }
 
@@ -147,12 +136,12 @@ class _ProfileState extends State<ProfilePage>
   _tapRow(int index) {
     switch (index) {
       case 0:
-        Toast.show("暂不支持修改头像", context, gravity: Toast.CENTER);
-        //selectImages();
+        selectImages();
         break;
       case 1:
         AlertUtils.showPrompt(context, "请输入昵称", onOK: (text) {
           setState(() {
+            _isEdit = true;
             _newUser.nickname = text;
           });
         });
@@ -173,6 +162,7 @@ class _ProfileState extends State<ProfilePage>
       case 3:
         AlertUtils.showPrompt(context, "请用一句话介绍你自己", onOK: (text) {
           setState(() {
+            _isEdit = true;
             _newUser.description = text;
           });
         });
@@ -201,6 +191,7 @@ class _ProfileState extends State<ProfilePage>
         uiConfig: UIConfig(uiThemeColor: Colors.red),
         cropConfig: CropConfig(enableCrop: true, width: 2, height: 1));
     setState(() {
+      _isEdit = true;
       _newUser.avatar = _listImagePaths[0].path;
     });
   }
@@ -208,17 +199,24 @@ class _ProfileState extends State<ProfilePage>
   void _save() async {
     FormData formData = FormData.from({
       "userId": CommonUser.getInstance().getUserId(),
-      "avatar": _newUser.avatar,
-      "sex": _newUser.sex ? "1" : "0",
+      "sex": _newUser.sex ? 1 : 0,
       "nickname": _newUser.nickname,
       "description": _newUser.description
     });
+    if (_newUser.avatar.isNotEmpty && !isNetworkPath(_newUser.avatar)) {
+      File file = File(_newUser.avatar);
+      String suffix = file.path.split(".").last;
+      formData.add(
+          "avatar", UploadFileInfo(file, "${_user.objectId}_avatar.$suffix"));
+    }
+
     AlertUtils.showLoading(context);
     var res = await NetUtils.getInstance(context).filePost(
         "user/update_profile", formData,
         headers: {"token": CommonUser.getInstance().getToken()});
     Navigator.pop(context);
     if (res != null && res["data"] != null) {
+      print(res);
       Toast.show("ヾ(^▽^ヾ)，保存成功啦", context, gravity: Toast.CENTER);
       setState(() {
         _newUser = User.fromJson(res["data"]);

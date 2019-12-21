@@ -13,7 +13,16 @@ class CacheUtils {
       width: width,
       height: height,
       fit: fit,
-      placeholder: (context, url) => Image.asset("images/loading.gif"),
+      placeholder: (context, url) => Image.asset(
+        "images/loading.gif",
+        width: width,
+        height: height,
+      ),
+      errorWidget: (context, url, error) => Image.asset(
+        "images/default_avatar.gif",
+        width: width,
+        height: height,
+      ),
     );
   }
 
