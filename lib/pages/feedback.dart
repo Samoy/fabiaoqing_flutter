@@ -21,6 +21,7 @@ class _FeedbackState extends State<FeedbackPage> {
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text("用户反馈"),
+        elevation: 0,
       ),
       body: Container(
         padding: EdgeInsets.all(16),

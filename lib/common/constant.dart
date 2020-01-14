@@ -10,3 +10,7 @@ const String FLAG_SAVE_FAVORITE = "save_favorite";
 const String FLAG_SHARE_QQ = "share_qq";
 const String FLAG_SHARE_WX = "share_wx";
 const String FLAG_SAVE_CANCEL = "cancel";
+
+//分享平台的KEY
+const QQ_APP_ID = "101841496";
+const QQ_APP_KEY = "7b332b8db6f36fc91ad1d5159671e746";

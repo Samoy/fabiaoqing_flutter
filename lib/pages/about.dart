@@ -40,7 +40,8 @@ class AboutPage extends StatelessWidget {
                   ),
                   Container(
                     margin: EdgeInsets.all(16),
-                    child: Text(r'       这是一款斗图神器，无数的表情包供你选择，没有你搜不到，只有你想不到。'),
+                    child: Text(
+                        r'       这是一款斗图神器，无数的表情包供你选择，没有你搜不到，只有你想不到，妈妈再也不用担心我斗图会输了。'),
                   )
                 ],
               ),

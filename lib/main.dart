@@ -1,9 +1,12 @@
 import 'package:fabiaoqing/common/common_user.dart';
+import 'package:fabiaoqing/common/constant.dart';
+import 'package:fabiaoqing/pages/diy_page.dart';
 import 'package:fabiaoqing/pages/mine.dart';
 import 'package:flutter/material.dart';
 import 'package:fabiaoqing/pages/home.dart';
 import 'package:fabiaoqing/pages/tag_page.dart';
 import 'package:flutter/services.dart';
+import 'package:sharesdk_plugin/sharesdk_plugin.dart';
 
 void main() => runApp(MyApp());
 
@@ -36,8 +39,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     TagPage(),
+    //DiyPage(),
     MinePage(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    ShareSDKRegister register = ShareSDKRegister();
+    register.setupQQ(QQ_APP_ID, QQ_APP_KEY);
+    SharesdkPlugin.regist(register);
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -72,6 +84,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
             title: Text('标签墙', style: TextStyle(fontFamily: "KuaiLe")),
           ),
+//          BottomNavigationBarItem(
+//            icon: Image.asset(
+//              'images/tab_diy.png',
+//              width: 20,
+//              height: 20,
+//              color: _selectedIndex == 2 ? Colors.blue : Colors.grey[700],
+//            ),
+//            title: Text('DIY', style: TextStyle(fontFamily: "KuaiLe")),
+//          ),
           BottomNavigationBarItem(
               icon: Icon(Icons.person),
               title: Text('我的', style: TextStyle(fontFamily: "KuaiLe")))

@@ -5,6 +5,7 @@ import 'package:fabiaoqing/common/common_user.dart';
 import 'package:fabiaoqing/common/constant.dart';
 import 'package:fabiaoqing/models/emoticon.dart';
 import 'package:fabiaoqing/utils/net_utils.dart';
+import 'package:sharesdk_plugin/sharesdk_plugin.dart';
 import 'package:toast/toast.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
@@ -32,8 +33,8 @@ class ImagePreviewState extends State<ImagePreview> {
   PageController _controller;
   final List<Map<String, String>> _shareChannels = [
     {"title": "保存到手机", "flag": FLAG_SAVE_PHONE},
-//    {"title": "发送给QQ好友", "flag": FLAG_SHARE_QQ},
-//    {"title": "发送到微信好友", "flag": FLAG_SHARE_WX},
+    {"title": "发送给QQ好友", "flag": FLAG_SHARE_QQ},
+    {"title": "发送到微信好友", "flag": FLAG_SHARE_WX},
     {"title": "收藏", "flag": FLAG_SAVE_FAVORITE},
     {"title": "取消", "flag": FLAG_SAVE_CANCEL}
   ];
@@ -48,18 +49,19 @@ class ImagePreviewState extends State<ImagePreview> {
 
   _onTapShare(String flag, Emoticon emoticon) {
     Navigator.pop(context);
+    String url = emoticon.url.replaceAll("http", "https");
     switch (flag) {
       //保存到手机
       case FLAG_SAVE_PHONE:
-        _saveImageToAlbum(emoticon.url);
+        _saveImageToAlbum(url);
         break;
       //分享到QQ
       case FLAG_SHARE_QQ:
-        _shareToQQ(emoticon.url);
+        _shareToQQ(url);
         break;
       //分享到微信
       case FLAG_SHARE_WX:
-        _shareToWX(emoticon.url);
+        _shareToWX(url);
         break;
       //收藏
       case FLAG_SAVE_FAVORITE:
@@ -110,9 +112,34 @@ class ImagePreviewState extends State<ImagePreview> {
     Toast.show(path == null ? "(╥╯^╰╥)，保存失败了" : "ヾ(^▽^ヾ)，保存成功啦", context);
   }
 
-  _shareToQQ(url) {}
+  _shareToQQ(url) {
+    SSDKMap params = SSDKMap()
+      ..setQQ(
+          "text",
+          "title",
+          "http://m.93lj.com/sharelink?mobid=ziqMNf",
+          null,
+          null,
+          null,
+          null,
+          "http://wx4.sinaimg.cn/large/006tkBCzly1fy8hfqdoy6j30dw0dw759.jpg",
+          ["http://wx4.sinaimg.cn/large/006tkBCzly1fy8hfqdoy6j30dw0dw759.jpg"],
+          null,
+          null,
+          "http://m.93lj.com/sharelink?mobid=ziqMNf",
+          null,
+          null,
+          SSDKContentTypes.image,
+          ShareSDKPlatforms.qq);
+    SharesdkPlugin.share(ShareSDKPlatforms.qq, params, (SSDKResponseState state,
+        Map userdata, Map contentEntity, SSDKError error) {
+      print(error.rawData);
+    });
+  }
 
-  _shareToWX(url) {}
+  _shareToWX(url) {
+    Toast.show("敬请期待", context);
+  }
 
   _collect(emoticonId) async {
     var res = await NetUtils.getInstance(context).post("favorite/add", {
@@ -152,8 +179,7 @@ class ImagePreviewState extends State<ImagePreview> {
                 context: context,
                 builder: (context) {
                   return Container(
-                      //fixme:由于去掉了分享到第三方的功能，因此高度降低了，原高度为295
-                      height: 180,
+                      height: 295,
                       child: ListView.builder(
                         itemBuilder: (context, index) {
                           double dividerHeight = 0.5;

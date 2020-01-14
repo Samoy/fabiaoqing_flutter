@@ -24,6 +24,39 @@ PODS:
     - ZLPhotoBrowser
   - image_save (0.0.1):
     - Flutter
+  - mob_sharesdk (4.3.4):
+    - mob_sharesdk/ShareSDK (= 4.3.4)
+    - MOBFoundation
+  - mob_sharesdk/ShareSDK (4.3.4):
+    - MOBFoundation
+  - mob_sharesdk/ShareSDKExtension (4.3.4):
+    - mob_sharesdk/ShareSDK
+    - MOBFoundation
+  - mob_sharesdk/ShareSDKPlatforms/Douyin (4.3.4):
+    - mob_sharesdk/ShareSDK
+    - MOBFoundation
+  - mob_sharesdk/ShareSDKPlatforms/Facebook (4.3.4):
+    - mob_sharesdk/ShareSDK
+    - MOBFoundation
+  - mob_sharesdk/ShareSDKPlatforms/QQ (4.3.4):
+    - mob_sharesdk/ShareSDK
+    - MOBFoundation
+  - mob_sharesdk/ShareSDKPlatforms/SinaWeibo (4.3.4):
+    - mob_sharesdk/ShareSDK
+    - MOBFoundation
+  - mob_sharesdk/ShareSDKPlatforms/Twitter (4.3.4):
+    - mob_sharesdk/ShareSDK
+    - MOBFoundation
+  - mob_sharesdk/ShareSDKPlatforms/WeChat (4.3.4):
+    - mob_sharesdk/ShareSDK
+    - MOBFoundation
+  - mob_sharesdk/ShareSDKRestoreScene (4.3.4):
+    - mob_sharesdk/ShareSDKExtension
+    - MOBFoundation
+  - mob_sharesdk/ShareSDKUI (4.3.4):
+    - mob_sharesdk/ShareSDK
+    - MOBFoundation
+  - MOBFoundation (3.2.8)
   - package_info (0.0.1):
     - Flutter
   - path_provider (0.0.1):
@@ -39,6 +72,18 @@ PODS:
     - Flutter
   - shared_preferences_web (0.0.1):
     - Flutter
+  - sharesdk_plugin (1.1.0):
+    - Flutter
+    - mob_sharesdk
+    - mob_sharesdk/ShareSDKExtension
+    - mob_sharesdk/ShareSDKPlatforms/Douyin
+    - mob_sharesdk/ShareSDKPlatforms/Facebook
+    - mob_sharesdk/ShareSDKPlatforms/QQ
+    - mob_sharesdk/ShareSDKPlatforms/SinaWeibo
+    - mob_sharesdk/ShareSDKPlatforms/Twitter
+    - mob_sharesdk/ShareSDKPlatforms/WeChat
+    - mob_sharesdk/ShareSDKRestoreScene
+    - mob_sharesdk/ShareSDKUI
   - sqflite (0.0.1):
     - Flutter
     - FMDB (~> 2.7.2)
@@ -61,6 +106,7 @@ DEPENDENCIES:
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - shared_preferences_macos (from `.symlinks/plugins/shared_preferences_macos/ios`)
   - shared_preferences_web (from `.symlinks/plugins/shared_preferences_web/ios`)
+  - sharesdk_plugin (from `.symlinks/plugins/sharesdk_plugin/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - url_launcher_macos (from `.symlinks/plugins/url_launcher_macos/ios`)
@@ -70,6 +116,8 @@ SPEC REPOS:
   trunk:
     - AFNetworking
     - FMDB
+    - mob_sharesdk
+    - MOBFoundation
     - SDWebImage
     - ZLPhotoBrowser
 
@@ -92,6 +140,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences_macos/ios"
   shared_preferences_web:
     :path: ".symlinks/plugins/shared_preferences_web/ios"
+  sharesdk_plugin:
+    :path: ".symlinks/plugins/sharesdk_plugin/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
   url_launcher:
@@ -107,6 +157,8 @@ SPEC CHECKSUMS:
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   image_pickers: 7b9d9fd430b5eb2ed48fb14fd8b9d77034a0a8a8
   image_save: 66ab41fa2c60bc9569e55563ea287cced7b79fd1
+  mob_sharesdk: ecee6e8ba42f76a252a40d2da7a1f7301b9831d6
+  MOBFoundation: 2dc0a63371eccccabef13b1df3fe57564003bc85
   package_info: 48b108e75b8802c2d5e126f208ef540561c98aef
   path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
   permission_handler: 67637977b227d62d46bfbf524f335f8568de5a73
@@ -114,6 +166,7 @@ SPEC CHECKSUMS:
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
   shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
   shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
+  sharesdk_plugin: 0eb7499dac8fb7feca8ecd100d26e69249654481
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
   url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
