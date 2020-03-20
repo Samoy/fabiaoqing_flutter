@@ -67,6 +67,13 @@ flutter:
     - images/default_avatar.gif
     - images/logo.jpg
     - images/tab_diy.png
+    - images/xieriji.jpg
+    - images/wangjingze.jpg
+    - images/zhangxueyou.jpg
+    - images/weisuoyuwei.jpg
+    - images/qiegewala.jpg
+    - images/jichou.jpg
+    - images/jichou_girl.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
